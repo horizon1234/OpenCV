@@ -23,3 +23,15 @@ cmake --build build
 - imwrite_lesson_widget.*：imwrite 子项目
 - imread_lesson_widget.*：imread 子项目
 - mat_to_qimage.*：OpenCV 到 QImage 转换
+- generate_wolf_ppt.py："狼来了"故事 PPT 生成脚本
+
+## 生成"狼来了"PPT
+
+使用 Python 脚本自动生成一个约 20 页的幼儿园绘本风格 PPT，配有 Pillow 绘制的插图。
+
+```bash
+pip install python-pptx Pillow
+python generate_wolf_ppt.py
+```
+
+运行后会在当前目录生成 `狼来了.pptx`。
