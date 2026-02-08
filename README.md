@@ -29,6 +29,12 @@ cmake --build build
 
 使用 Python 脚本自动生成一个约 20 页的幼儿园绘本风格 PPT，配有 Pillow 绘制的插图。
 
+### 直接下载
+
+已生成的 PPT 文件可以直接从仓库下载：[狼来了.pptx](狼来了.pptx)
+
+### 自行生成
+
 ```bash
 pip install python-pptx Pillow
 python generate_wolf_ppt.py
