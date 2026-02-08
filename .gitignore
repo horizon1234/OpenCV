@@ -17,3 +17,7 @@ Thumbs.db
 
 # Generated PPT
 *.pptx
+
+# Python
+__pycache__/
+*.pyc
