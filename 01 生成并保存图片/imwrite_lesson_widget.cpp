@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include "mat_to_qimage.h"
+#include "../mat_to_qimage.h"
 
 ImwriteLessonWidget::ImwriteLessonWidget(QWidget *parent)
     : QWidget(parent)

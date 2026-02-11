@@ -14,7 +14,7 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "mat_to_qimage.h"
+#include "../mat_to_qimage.h"
 
 ImreadLessonWidget::ImreadLessonWidget(QWidget *parent)
     : QWidget(parent)

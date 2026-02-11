@@ -7,11 +7,11 @@
 #include <QStackedWidget>
 #include <QVBoxLayout>
 
-#include "imread_lesson_widget.h"
-#include "imwrite_lesson_widget.h"
-#include "named_window_lesson_widget.h"
-#include "morphology_trackbar_lesson_widget.h"
-#include "erosion_boundary_lesson_widget.h"
+#include "01 生成并保存图片/imwrite_lesson_widget.h"
+#include "02 读取并显示图片/imread_lesson_widget.h"
+#include "03 窗口显示/named_window_lesson_widget.h"
+#include "04 腐蚀与膨胀/morphology_trackbar_lesson_widget.h"
+#include "05 边界提取/erosion_boundary_lesson_widget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

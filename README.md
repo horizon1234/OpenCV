@@ -20,6 +20,9 @@ cmake --build build
 ## 目录结构
 - main.cpp：入口
 - main_window.*：主窗口（首页+导航）
-- imwrite_lesson_widget.*：imwrite 子项目
-- imread_lesson_widget.*：imread 子项目
+- 01 生成并保存图片/：imwrite 子项目
+- 02 读取并显示图片/：imread 子项目
+- 03 窗口显示/：namedWindow 子项目
+- 04 腐蚀与膨胀/：滑动条腐蚀/膨胀子项目
+- 05 边界提取/：腐蚀边界提取子项目
 - mat_to_qimage.*：OpenCV 到 QImage 转换
