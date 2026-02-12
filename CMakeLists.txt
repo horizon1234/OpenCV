@@ -25,6 +25,13 @@ add_executable(${PROJECT_NAME}
     "03 窗口显示/named_window_lesson_widget.cpp"
     "04 腐蚀与膨胀/morphology_trackbar_lesson_widget.cpp"
     "05 边界提取/erosion_boundary_lesson_widget.cpp"
+    "06 点运算-灰度变换/point_gray_transform_lesson_widget.cpp"
+    "07 点运算-直方图/point_histogram_lesson_widget.cpp"
+    "08 点运算-截断/point_truncation_lesson_widget.cpp"
+    "09 点运算-提升饱和度与颜色/point_color_adjust_lesson_widget.cpp"
+    "10 点运算-反相/point_invert_lesson_widget.cpp"
+    "11 点运算-二值化/point_threshold_lesson_widget.cpp"
+    "12 点运算-对比度拉伸/point_contrast_stretch_lesson_widget.cpp"
     mat_to_qimage.cpp
 )
 
