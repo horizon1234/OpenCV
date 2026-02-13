@@ -14,3 +14,11 @@ compile_commands.json
 # OS files
 .DS_Store
 Thumbs.db
+
+# Generated PPT (allow 狼来了.pptx for download)
+*.pptx
+!狼来了.pptx
+
+# Python
+__pycache__/
+*.pyc
