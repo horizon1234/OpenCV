@@ -528,6 +528,54 @@ def gen_gamma_timeline():
 
 
 # ============================================================
+# 13. Log transform curve (detailed)
+# ============================================================
+def gen_log_transform_curve():
+    fig, ax = plt.subplots(figsize=(8.5, 5.5))
+
+    x = np.linspace(0, 255, 600)
+    c = 255.0 / np.log(256.0)
+    y_log = c * np.log1p(x)
+    y_linear = x
+
+    ax.plot(x, y_log, color='#E67E22', linewidth=2.8,
+            label=r'Log Transform: $I\prime = \frac{255}{\ln 256}\ln(1+I)$')
+    ax.plot(x, y_linear, '--', color='#7F8C8D', linewidth=1.8,
+            label=r'Identity: $I\prime = I$')
+
+    key_x = np.array([0, 16, 32, 64, 96, 128, 160, 192, 224, 255], dtype=float)
+    key_y = c * np.log1p(key_x)
+    ax.scatter(key_x, key_y, color='#D35400', s=26, zorder=5)
+
+    for kx in [16, 64, 128, 224]:
+        ky = c * np.log1p(kx)
+        ax.annotate(f'({int(kx)}, {int(round(ky))})',
+                    xy=(kx, ky),
+                    xytext=(kx + 8, ky - 18),
+                    fontsize=9,
+                    color='#6E2C00',
+                    arrowprops=dict(arrowstyle='->', color='#A04000', lw=0.9))
+
+    ax.set_title('Log Transform Curve: Strong Dark Boost, Bright Compression',
+                 fontsize=14, fontweight='bold')
+    ax.set_xlabel('Input Pixel Value  I', fontsize=12)
+    ax.set_ylabel('Output Pixel Value  I\'', fontsize=12)
+    ax.set_xlim(0, 255)
+    ax.set_ylim(0, 260)
+    ax.legend(loc='lower right', fontsize=10)
+
+    ax.text(18, 200, 'Dark region\nsteep slope', fontsize=10, color='#7D6608',
+            bbox=dict(boxstyle='round,pad=0.3', fc='#FCF3CF', ec='#F1C40F'))
+    ax.text(172, 238, 'Bright region\nflatter slope', fontsize=10, color='#1F618D',
+            bbox=dict(boxstyle='round,pad=0.3', fc='#EBF5FB', ec='#5DADE2'))
+
+    fig.tight_layout()
+    fig.savefig(os.path.join(IMG_DIR, '13_log_transform_curve.png'), dpi=150)
+    plt.close(fig)
+    print('  ✓ 13_log_transform_curve.png')
+
+
+# ============================================================
 if __name__ == '__main__':
     print('Generating images...')
     gen_weber_fechner()
@@ -542,4 +590,5 @@ if __name__ == '__main__':
     gen_display_tech_comparison()
     gen_gamma_standards()
     gen_gamma_timeline()
+    gen_log_transform_curve()
     print(f'\nAll images saved to: {IMG_DIR}/')
