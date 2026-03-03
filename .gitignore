@@ -1,5 +1,6 @@
 # Build outputs
 /build/
+QtOpenCVWebpViewer.exe
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
