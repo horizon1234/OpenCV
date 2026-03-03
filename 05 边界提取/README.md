@@ -116,9 +116,75 @@
 
 ---
 
-## 三、代码逐行详解
+## 三、代码执行流程图
 
-### 3.1 灰度转换
+> 下面的 Mermaid 流程图展示了 `ErosionBoundaryLessonWidget` 从构建 UI 到完成边界提取的完整执行路径。
+> 需要支持 Mermaid 的 Markdown 渲染器（GitHub、VS Code Markdown Preview Mermaid Support 插件等）查看。
+
+```mermaid
+flowchart TD
+    A["程序启动<br/>ErosionBoundaryLessonWidget 构造函数"] --> B["创建 UI 布局"]
+    B --> B1["titleLabel: 腐蚀应用：边界提取"]
+    B --> B2["statusLabel: 状态文字"]
+    B --> B3["openButton: 打开并显示"]
+    B --> B4["waitKeyTimer: 30ms 定时器"]
+
+    B3 -->|"用户点击按钮"| C["openAndShow()"]
+
+    C --> D["cv::imread&#40;cat.jpg, IMREAD_UNCHANGED&#41;<br/>读取原始图片"]
+    D --> E{图片是否为空？}
+    E -->|"是"| F["statusLabel 显示读取失败<br/>return"]
+    E -->|"否"| G{检查通道数}
+
+    G -->|"channels == 3"| H1["cvtColor&#40;BGR → GRAY&#41;<br/>三通道转灰度"]
+    G -->|"channels == 4"| H2["cvtColor&#40;BGRA → GRAY&#41;<br/>四通道转灰度"]
+    G -->|"其他&#40;已是灰度&#41;"| H3["gray = original.clone&#40;&#41;"]
+
+    H1 --> I["cv::namedWindow&#40;窗口名, WINDOW_NORMAL&#41;<br/>cv::resizeWindow&#40;432×648&#41;"]
+    H2 --> I
+    H3 --> I
+
+    I --> J["cv::createTrackbar&#40;Erode, 0~10&#41;<br/>创建滑动条，回调 onErodeTrackbar"]
+
+    J --> K["调用 updateBoundary&#40;&#41;"]
+
+    K --> L["计算核大小<br/>k = erodeSize × 2 + 1"]
+    L --> M["cv::getStructuringElement&#40;MORPH_RECT, k×k&#41;<br/>创建矩形结构元素"]
+    M --> N["cv::erode&#40;gray, eroded, kernel&#41;<br/>腐蚀操作"]
+    N --> O["cv::absdiff&#40;gray, eroded, boundary&#41;<br/>boundary = |gray − eroded|"]
+    O --> P["cv::imshow&#40;boundary&#41;<br/>显示边界图"]
+
+    P --> Q["statusLabel 更新状态文字<br/>启动 waitKeyTimer"]
+
+    B4 -->|"每 30ms 触发"| R["cv::waitKey&#40;1&#41;<br/>处理 OpenCV 窗口事件"]
+
+    J -.->|"用户拖动滑动条"| S["onErodeTrackbar&#40;value, userdata&#41;"]
+    S --> T["erodeSize = max&#40;1, value&#41;<br/>确保最小为 1"]
+    T --> K
+
+    style A fill:#4CAF50,color:#fff
+    style F fill:#f44336,color:#fff
+    style O fill:#FF9800,color:#fff
+    style P fill:#2196F3,color:#fff
+    style K fill:#9C27B0,color:#fff
+```
+
+**流程图要点说明**：
+
+| 颜色 | 含义 |
+|------|------|
+| 🟢 绿色 | 程序入口（构造函数） |
+| 🟣 紫色 | 核心处理入口 `updateBoundary()` |
+| 🟠 橙色 | 关键算法步骤 `absdiff`（边界提取） |
+| 🔵 蓝色 | 结果显示 `imshow` |
+| 🔴 红色 | 错误路径（读图失败） |
+| 虚线箭头 | 用户交互触发的回调（滑动条事件） |
+
+---
+
+## 四、代码逐行详解
+
+### 4.1 灰度转换
 
 ```cpp
 if (state.original.channels() == 3)
@@ -131,7 +197,7 @@ else
 
 > 为什么先转灰度？边界提取通常在灰度图上做——彩色的三个通道分别做减法结果很混乱，不如灰度直观。
 
-### 3.2 腐蚀
+### 4.2 腐蚀
 
 ```cpp
 const int k = state->erodeSize * 2 + 1;  // 保证奇数
@@ -139,7 +205,7 @@ cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(k, k));
 cv::erode(state->gray, state->eroded, kernel);
 ```
 
-### 3.3 计算差值（提取边界）
+### 4.3 计算差值（提取边界）
 
 ```cpp
 cv::absdiff(state->gray, state->eroded, state->boundary);
@@ -164,7 +230,7 @@ $$
 \text{boundary}(x,y) = | \text{gray}(x,y) - \text{eroded}(x,y) |
 $$
 
-### 3.4 滑动条控制边界粗细
+### 4.4 滑动条控制边界粗细
 
 ```cpp
 cv::createTrackbar("Erode", windowName, &state.erodeSize, 10, onErodeTrackbar, &state);
@@ -179,7 +245,7 @@ void onErodeTrackbar(int value, void *userdata)
 
 ---
 
-## 四、与其他边缘检测方法的对比
+## 五、与其他边缘检测方法的对比
 
 形态学边界提取只是边缘检测的方法之一：
 
@@ -192,19 +258,20 @@ void onErodeTrackbar(int value, void *userdata)
 
 **如何选择边缘检测方法？（决策流程）**：
 
-```
-  需要边缘检测 ─ 初学/快速原型？──── 是 ──▶ 形态学（本课）
-            │
-           否
-            │
-       需要方向信息？──── 是 ──▶ Sobel（可分水平/垂直）
-            │
-           否
-            │
-       需要最精确的细边？── 是 ──▶ Canny（工业标准）
-            │
-           否
-            ├──▶ Laplacian（各方向均匀但噪声敏感）
+```mermaid
+flowchart TD
+    START{"需要边缘检测"} --> Q1{"初学 / 快速原型？"}
+    Q1 -->|"是"| A1["形态学边界\n本课方法\nerode + absdiff"]
+    Q1 -->|"否"| Q2{"需要方向信息？"}
+    Q2 -->|"是"| A2["Sobel\n可分水平/垂直"]
+    Q2 -->|"否"| Q3{"需要最精确的细边？"}
+    Q3 -->|"是"| A3["Canny\n工业标准"]
+    Q3 -->|"否"| A4["Laplacian\n各方向均匀"]
+
+    style A1 fill:#E8F5E9,stroke:#2E7D32
+    style A2 fill:#E3F2FD,stroke:#1565C0
+    style A3 fill:#FFF3E0,stroke:#E65100
+    style A4 fill:#F3E5F5,stroke:#6A1B9A
 ```
 
 | 对比维度 | 形态学边界 | Sobel | Canny | Laplacian |
@@ -233,7 +300,7 @@ void onErodeTrackbar(int value, void *userdata)
 
 ---
 
-## 五、morphologyEx——更多形态学操作
+## 六、morphologyEx——更多形态学操作
 
 OpenCV 提供了一个统一的形态学函数，内部封装了各种组合操作：
 
@@ -278,7 +345,7 @@ cv::morphologyEx(src, dst, operation, kernel);
 
 ---
 
-## 六、动手实验
+## 七、动手实验
 
 ### 实验 1：对比两种边界提取方法
 
@@ -315,7 +382,7 @@ cv::imshow("Color Boundary", colorBoundary);
 
 ---
 
-## 七、常见问题
+## 八、常见问题
 
 | 问题 | 原因 | 解决方法 |
 |------|------|---------|
@@ -326,7 +393,7 @@ cv::imshow("Color Boundary", colorBoundary);
 
 ---
 
-## 八、术语表
+## 九、术语表
 
 | 术语 | 英文 | 含义 |
 |------|------|------|
@@ -340,23 +407,27 @@ cv::imshow("Color Boundary", colorBoundary);
 
 ---
 
-## 九、知识地图
+## 十、知识地图
 
+```mermaid
+graph LR
+    L03["③ 窗口交互"] --> L04["④ 腐蚀与膨胀\nerode"]
+    L04 --> L05["★ ⑤ 边界提取\nabsdiff"]:::current
+    L05 -.->|"进阶路线"| SOBEL["Sobel 梯度"]
+    SOBEL --> CANNY["Canny 边缘"]
+    CANNY --> CONTOUR["轮廓检测"]
+    L05 --> L06["⑥ Gamma"]
+    L06 --> L07["⑦~⑫ 点运算系列"]
+
+    classDef current fill:#FF9800,color:#fff,stroke:#E65100,stroke-width:3px
 ```
-  ③ 窗口交互 → ④ 腐蚀与膨胀 → ⑤ 边界提取
-                  ↑ 前置知识       ★ 本课
-                  erode           absdiff(原图, 腐蚀图)
 
-  本课是形态学的"毕业作品" → 用腐蚀实现了边缘检测。
-  后续课程 06~12 转向"点运算"系列（逐像素处理）。
-
-  边缘检测的进阶路线：
-  形态学边界（本课） → Sobel 梯度 → Canny 边缘 → 轮廓检测
-```
+- 本课是形态学的“毕业作品” → 用腐蚀实现了边缘检测。
+- 后续课程 06~12 转向“点运算”系列（逐像素处理）。
 
 ---
 
-## 十、记忆口诀
+## 十一、记忆口诀
 
 ```
 🧠 边界提取核心：
@@ -377,7 +448,7 @@ cv::imshow("Color Boundary", colorBoundary);
 
 ---
 
-## 十一、新手雷区
+## 十二、新手雷区
 
 ```cpp
 // ❌ 雷区 1：用减法代替 absdiff
@@ -411,7 +482,7 @@ cv::absdiff(gray, eroded, boundary);
 
 ---
 
-## 十二、思考题
+## 十三、思考题
 
 1. **`原图 - 腐蚀图` 和 `膨胀图 - 原图` 提取的边界有什么区别？**
    提示：一个是"内边界"，一个是"外边界"。
@@ -424,7 +495,7 @@ cv::absdiff(gray, eroded, boundary);
 
 ---
 
-## 十三、速查卡片
+## 十四、速查卡片
 
 ```
 ┌─────────────────── 课程 05 速查 ───────────────────┐
@@ -450,7 +521,7 @@ cv::absdiff(gray, eroded, boundary);
 
 ---
 
-## 十四、延伸阅读
+## 十五、延伸阅读
 
 - [cv::absdiff 文档](https://docs.opencv.org/4.x/d2/de8/group__core__array.html#ga6fef31bc8c4071cbc114a758a2b79c14) — 绝对差值函数
 - [Canny 边缘检测教程](https://docs.opencv.org/4.x/da/d22/tutorial_py_canny.html) — 更高级的边缘检测

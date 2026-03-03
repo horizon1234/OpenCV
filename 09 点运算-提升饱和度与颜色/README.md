@@ -478,17 +478,30 @@ channels[1].convertTo(channels[1], -1, 1.5, 0);
 
 ## 十二、知识地图
 
+```mermaid
+graph LR
+    L06["⑥ Gamma"] --> L07["⑦ 直方图"]
+    L07 --> L08["⑧ 截断"]
+    L08 --> L09["★ ⑨ 颜色调整\nHSV / BGR"]:::current
+    L09 --> L10["⑩ 反相"]
+    L10 --> L11["⑪ 二值化"]
+    L11 --> L12["⑫ 对比度拉伸"]
+
+    L07 -.->|"共用 cvtColor\nsplit / merge"| L09
+    L09 -.->|"共用 convertTo"| L12
+
+    classDef current fill:#FF9800,color:#fff,stroke:#E65100,stroke-width:3px
 ```
-  ⑥ Gamma → ⑦ 直方图 → ⑧ 截断 → ⑨ 颜色调整 → ⑩ 反相
-                                    ★ 本课
 
-  本课用到的技术：
-  ├── cvtColor（课程 07 也用过 YCrCb 转换）
-  ├── split / merge（课程 07 也用过）
-  └── convertTo（课程 12 对比度拉伸也会用到）
+**色彩空间知识路线**：
 
-  色彩空间知识路线：
-  BGR 基础 → YCrCb(课程07) → HSV(本课) → Lab(延伸)
+```mermaid
+flowchart LR
+    BGR["🎨 BGR 基础"] --> YCrCb["⑦ YCrCb\n亮度 + 色度"]
+    BGR --> HSV["★ ⑨ HSV\n色相 + 饱和度 + 明度"]
+    HSV -.-> Lab["Lab\n感知均匀（延伸）"]
+
+    style HSV fill:#FF9800,color:#fff
 ```
 
 ---

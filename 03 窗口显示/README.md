@@ -231,6 +231,46 @@ void myCallback(int event, int x, int y, int flags, void* userdata);
 
 本课的核心功能——拖拽鼠标在图片上画线。原理是：
 
+#### 鼠标绘画状态机
+
+```mermaid
+stateDiagram-v2
+    [*] --> 等待按下
+    等待按下 --> 正在画线 : 左键按下 / 记录起始点 P0
+    正在画线 --> 正在画线 : 鼠标移动 / cv::line&#40;上一点, 当前点&#41;
+    正在画线 --> 等待按下 : 左键抬起 / 停止画线
+```
+
+#### 绘画时序
+
+```mermaid
+sequenceDiagram
+    participant 用户
+    participant 回调函数
+    participant OpenCV窗口
+
+    用户->>回调函数: 左键按下 &#40;P0&#41;
+    回调函数->>回调函数: drawing = true, lastPoint = P0
+
+    用户->>回调函数: 鼠标移动 &#40;P1&#41;
+    回调函数->>OpenCV窗口: cv::line&#40;P0, P1&#41;
+    回调函数->>回调函数: lastPoint = P1
+
+    用户->>回调函数: 鼠标移动 &#40;P2&#41;
+    回调函数->>OpenCV窗口: cv::line&#40;P1, P2&#41;
+    回调函数->>回调函数: lastPoint = P2
+
+    用户->>回调函数: 鼠标移动 &#40;P3&#41;
+    回调函数->>OpenCV窗口: cv::line&#40;P2, P3&#41;
+
+    用户->>回调函数: 左键抬起
+    回调函数->>回调函数: drawing = false
+
+    Note right of OpenCV窗口: 多个小线段连起来<br/>= 流畅的手绘线条
+```
+
+文本版参考：
+
 ```
 画线的状态机：
 
@@ -390,6 +430,46 @@ std::string info = cv::getBuildInformation();
 
 ## 五、完整代码结构
 
+```mermaid
+flowchart TD
+    subgraph Qt["Qt 界面"]
+        BTN_OPEN["打开并显示 按钮"]
+        BTN_CLEAR["清空画布 按钮"]
+        BTN_COLOR["颜色按钮\n红/绿/蓝"]
+        SLIDER["粗细滑块"]
+        TIMER["QTimer 30ms"]
+    end
+
+    subgraph OCV["OpenCV 窗口"]
+        WIN["namedWindow&#40;&#41;"]
+        SHOW["imshow&#40;image&#41;"]
+        CB["setMouseCallback&#40;&#41;"]
+        DRAW["cv::line&#40;&#41;"]
+        WK["waitKey&#40;1&#41;"]
+    end
+
+    subgraph CALLBACK["鼠标回调"]
+        MCB["onMouseCallback"]
+    end
+
+    BTN_OPEN --> WIN
+    BTN_OPEN --> SHOW
+    BTN_OPEN --> CB
+    BTN_CLEAR --> SHOW
+    BTN_COLOR -.->|"改变画笔颜色"| MCB
+    SLIDER -.->|"改变线条粗细"| MCB
+    TIMER -->|"每 30ms"| WK
+    CB -->|"鼠标事件"| MCB
+    MCB --> DRAW
+    DRAW --> SHOW
+
+    style Qt fill:#E3F2FD,stroke:#1565C0
+    style OCV fill:#E8F5E9,stroke:#2E7D32
+    style CALLBACK fill:#FFF3E0,stroke:#E65100
+```
+
+文本版参考：
+
 ```
 NamedWindowLessonWidget 的完整交互流程：
 
@@ -480,16 +560,20 @@ if (event == cv::EVENT_MOUSEMOVE && isDrawing) {
 
 ## 九、知识地图
 
-```
-  ① 生成并保存 → ② 读取并显示 → ③ 窗口交互 → ④ 腐蚀膨胀
-     imwrite       imread         ★ 本课        ↑ 使用窗口+trackbar
-                                   namedWindow
-                                   imshow
-                                   setMouseCallback
+```mermaid
+graph LR
+    L01["① 生成并保存\nimwrite"] --> L02["② 读取并显示\nimread"]
+    L02 --> L03["★ ③ 窗口交互\nnamedWindow / imshow\nsetMouseCallback"]:::current
+    L03 --> L04["④ 腐蚀膨胀\n使用窗口+trackbar"]
+    L04 --> L05["⑤ 边界提取"]
+    L03 --> L06["⑥ Gamma"]
+    L06 --> L07["⑦ 直方图"]
+    L06 --> L08["⑧ 截断"]
 
-  本课引入的 namedWindow + imshow + waitKey 模式
-  是后续所有课程（04~12）的标准显示方式。
+    classDef current fill:#FF9800,color:#fff,stroke:#E65100,stroke-width:3px
 ```
+
+- 本课引入的 `namedWindow` + `imshow` + `waitKey` 模式是后续所有课程（04~12）的标准显示方式。
 
 ---
 

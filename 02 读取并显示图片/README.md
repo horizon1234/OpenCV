@@ -34,13 +34,18 @@
 3. 理解**行步长（step）**的概念及其重要性
 4. 看到**错误的 step 会导致什么后果**（图像错位）
 
-```
-整体流程：
+```mermaid
+flowchart LR
+    A["硬盘上的\ncat.jpg"] --> B["cv::imread\n解码图片文件"]
+    B --> C["cv::Mat\n内存中的像素"]
+    C --> D["matToQImage\nMat → QImage"]
+    D --> E["QLabel\n界面显示"]
 
-  ┌────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────┐
-  │ 硬盘上的    │───▶│ cv::imread   │───▶│ cv::Mat      │───▶│ 界面显示  │
-  │ cat.jpg    │    │ 解码图片文件  │    │ 内存中的像素  │    │ QLabel   │
-  └────────────┘    └──────────────┘    └──────────────┘    └──────────┘
+    style A fill:#F3E5F5,stroke:#6A1B9A
+    style B fill:#E3F2FD,stroke:#1565C0
+    style C fill:#FFF3E0,stroke:#E65100
+    style D fill:#FFF9C4,stroke:#F9A825
+    style E fill:#E8F5E9,stroke:#2E7D32
 ```
 
 ---
@@ -292,6 +297,37 @@ QImage wrong(data,              // 同样的数据
 
 ## 五、imread 的内部工作流程
 
+```mermaid
+flowchart TD
+    A["fopen&#40;cat.jpg, rb&#41;\n打开文件"] --> B["读取文件头\n前几个字节"]
+    B --> C{"魔数判断格式"}
+    C -->|"FF D8 FF"| D1["JPEG 解码器\nlibjpeg-turbo"]
+    C -->|"89 50 4E 47"| D2["PNG 解码器\nlibpng"]
+    C -->|"42 4D"| D3["BMP 解码器"]
+    C -->|"52 49 46 46"| D4["WebP 解码器\nlibwebp"]
+
+    D1 --> E["原始 BGR 像素数据"]
+    D2 --> E
+    D3 --> E
+    D4 --> E
+
+    E --> F{"flags 后处理"}
+    F -->|"IMREAD_COLOR"| G1["保持 BGR 3通道"]
+    F -->|"IMREAD_GRAYSCALE"| G2["BGR → Gray\nGray = 0.299R + 0.587G + 0.114B"]
+    F -->|"IMREAD_UNCHANGED"| G3["保持原始通道\n含 Alpha 如有"]
+
+    G1 --> H["返回 cv::Mat"]
+    G2 --> H
+    G3 --> H
+
+    style A fill:#E3F2FD,stroke:#1565C0
+    style C fill:#FFF9C4,stroke:#F9A825
+    style F fill:#FFF9C4,stroke:#F9A825
+    style H fill:#E8F5E9,stroke:#2E7D32
+```
+
+上述流程的文本版：
+
 ```
 cv::imread("cat.jpg", IMREAD_GRAYSCALE) 的完整流程：
 
@@ -394,16 +430,25 @@ for (int off : offsets) {
 
 ## 九、知识地图
 
-```
-          你在这里
-             ▼
-  ① 生成并保存 → ② 读取并显示 → ③ 窗口交互
-     imwrite       imread ★       namedWindow
-     ↑              ↑
-     生成的图片      本课读取它
+```mermaid
+graph LR
+    L01["① 生成并保存\nimwrite"] --> L02["★ ② 读取并显示\nimread"]:::current
+    L02 --> L03["③ 窗口交互\nnamedWindow"]
+    L03 --> L04["④ 腐蚀膨胀"]
+    L04 --> L05["⑤ 边界提取"]
+    L03 --> L06["⑥ Gamma"]
+    L06 --> L07["⑦ 直方图"]
+    L06 --> L08["⑧ 截断"]
+    L06 --> L09["⑨ 颜色"]
+    L06 --> L10["⑩ 反相"]
+    L06 --> L11["⑪ 二值化"]
+    L06 --> L12["⑫ 对比度拉伸"]
 
-  本课的核心知识点 step 会在后续所有 Mat↔QImage 转换中用到。
+    classDef current fill:#FF9800,color:#fff,stroke:#E65100,stroke-width:3px
 ```
+
+- **前置知识**：课程 01（生成的图片由本课读取）
+- **核心知识点**：step 会在后续所有 Mat↔QImage 转换中用到
 
 ---
 

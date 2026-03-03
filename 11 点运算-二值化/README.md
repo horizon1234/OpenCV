@@ -267,6 +267,22 @@ blockSize 和 C 的影响：
 
 #### 阈值方法选择决策表
 
+```mermaid
+flowchart TD
+    START{"需要二值化"} --> Q1{"光照是否均匀？"}
+    Q1 -->|"均匀"| Q2{"直方图是双峰？"}
+    Q2 -->|"是"| A1["THRESH_OTSU\n全自动，效果好"]
+    Q2 -->|"否 / 已知阈值"| A2["THRESH_BINARY\n最简单"]
+    Q1 -->|"不均匀"| A3["adaptiveThreshold\n局部自适应"]
+
+    START -.->|"不确定用什么"| TRY["先试 Otsu\n不行再 adaptive"]
+
+    style A1 fill:#E8F5E9,stroke:#2E7D32
+    style A2 fill:#E3F2FD,stroke:#1565C0
+    style A3 fill:#FFF3E0,stroke:#E65100
+    style TRY fill:#F3E5F5,stroke:#6A1B9A
+```
+
 | 场景 | 推荐方法 | 理由 |
 |:----:|:-------:|:----:|
 | 光照均匀 + 双峰直方图 | `THRESH_OTSU` | 全自动，效果好 |
@@ -452,21 +468,32 @@ cv::imshow("Contours", src);
 
 ## 十一、知识地图
 
+```mermaid
+graph LR
+    L08["⑧ 截断\nTHRESH_TRUNC"] --> L09["⑨ 颜色调整"]
+    L09 --> L10["⑩ 反相"]
+    L10 --> L11["★ ⑪ 二值化\nTHRESH_BINARY"]:::current
+    L11 --> L12["⑫ 对比度拉伸"]
+
+    L08 -.->|"同属 threshold 家族"| L11
+    L11 -.->|"下游应用"| CT["轮廓检测 / OCR"]
+
+    classDef current fill:#FF9800,color:#fff,stroke:#E65100,stroke-width:3px
 ```
-  ⑧ 截断 → ⑨ 颜色调整 → ⑩ 反相 → ⑪ 二值化 → ⑫ 对比度拉伸
-                                    ★ 本课
 
-  二值化是计算机视觉中最重要的预处理步骤之一！
+**阈值选择的进化路线**：
 
-  从 threshold 家族的角度：
-  课程 08（TRUNC 截断）→ 本课（BINARY 二值化）
+```mermaid
+flowchart LR
+    M["手动阈值"] --> O["Otsu 自动\n本课"]
+    O --> A["自适应阈值\n延伸"]
+    A --> DL["深度学习分割"]
 
-  二值化的上下游：
-  灰度化 → 二值化(本课) → 轮廓检测 / OCR / 形态学运算
-
-  阈值选择的进化：
-  手动阈值 → Otsu 自动(本课) → 自适应阈值(延伸) → 深度学习分割
+    style O fill:#FF9800,color:#fff
 ```
+
+- 二值化是计算机视觉中最重要的预处理步骤之一！
+- 从 threshold 家族的角度：课程 08（TRUNC 截断）→ 本课（BINARY 二值化）
 
 ---
 

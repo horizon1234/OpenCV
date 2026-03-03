@@ -412,16 +412,27 @@ void applyMorphology(MorphologyState *state)
 }
 ```
 
-```
 数据流：
 
-  原图 ──▶ 模式转换 ──▶ 腐蚀 ──▶ 膨胀 ──▶ 显示
-  │        ┌──────┐    ┌────┐   ┌────┐    ┌──────┐
-  │        │彩色  │    │min │   │max │    │imshow│
-  │        │灰度  │    │操作│   │操作│    │      │
-  │        │二值  │    └────┘   └────┘    └──────┘
-  │        └──────┘
-  └─ cat.jpg
+```mermaid
+flowchart LR
+    A["原图\ncat.jpg"] --> B{"模式选择"}
+    B -->|"mode=0"| C1["彩色\nBGR 原图"]
+    B -->|"mode=1"| C2["灰度\ncvtColor BGR→GRAY"]
+    B -->|"mode=2"| C3["二值\nthreshold OTSU"]
+
+    C1 --> D["腐蚀 erode\n局部最小值 min"]
+    C2 --> D
+    C3 --> D
+
+    D --> E["膨胀 dilate\n局部最大值 max"]
+    E --> F["imshow\n显示结果"]
+
+    style A fill:#F3E5F5,stroke:#6A1B9A
+    style B fill:#FFF9C4,stroke:#F9A825
+    style D fill:#FFCDD2,stroke:#C62828
+    style E fill:#C8E6C9,stroke:#2E7D32
+    style F fill:#E3F2FD,stroke:#1565C0
 ```
 
 ---
@@ -488,16 +499,21 @@ cv::morphologyEx(src, dst, cv::MORPH_GRADIENT, kernel);
 
 ## 十一、知识地图
 
-```
-  ① 生成保存 → ② 读取显示 → ③ 窗口交互
-                                  ↓
-                             ④ 腐蚀与膨胀 → ⑤ 边界提取
-                                ★ 本课        ↑ 用腐蚀做差
+```mermaid
+graph LR
+    L01["① 生成保存"] --> L02["② 读取显示"]
+    L02 --> L03["③ 窗口交互"]
+    L03 --> L04["★ ④ 腐蚀与膨胀\nerode / dilate"]:::current
+    L04 --> L05["⑤ 边界提取\n用腐蚀做差"]
+    L03 --> L06["⑥ Gamma"]
+    L06 --> PT["⑦~⑫ 点运算系列"]
 
-  本课是"邻域运算"的入门，也是形态学操作的基础。
-  后续课程 05 会用本课学的腐蚀来提取边界。
-  课程 06~12 转向"点运算"（每个像素独立处理）。
+    classDef current fill:#FF9800,color:#fff,stroke:#E65100,stroke-width:3px
 ```
+
+- 本课是“邻域运算”的入门，也是形态学操作的基础。
+- 后续课程 05 会用本课学的腐蚀来提取边界。
+- 课程 06~12 转向“点运算”（每个像素独立处理）。
 
 ---
 

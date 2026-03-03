@@ -218,6 +218,22 @@ convertTo 做的事等价于：
 
 ## 五、完整代码流程
 
+```mermaid
+flowchart TD
+    A["cv::imread\n读取原图"] --> B["cvtColor\nBGR → GRAY"]
+    B --> C["minMaxLoc\n找 minVal, maxVal"]
+    C --> D["计算参数\nα = 255 / &#40;max - min&#41;\nβ = -min × α"]
+    D --> E["convertTo\ngray.convertTo&#40;stretched, CV_8U, α, β&#41;"]
+    E --> F["imshow\n显示原图 + 拉伸结果"]
+
+    style A fill:#E3F2FD,stroke:#1565C0
+    style C fill:#FFF9C4,stroke:#F9A825
+    style E fill:#FF9800,color:#fff,stroke:#E65100
+    style F fill:#E8F5E9,stroke:#2E7D32
+```
+
+文本版参考：
+
 ```
 ┌──────────────────────────────────────────────┐
 │  1. 读取原图                                  │
@@ -536,22 +552,49 @@ cv::imshow("直方图均衡化", equalized);
 
 ## 十三、知识地图
 
+```mermaid
+graph LR
+    L09["⑨ 颜色调整"] --> L10["⑩ 反相"]
+    L10 --> L11["⑪ 二值化"]
+    L11 --> L12["★ ⑫ 对比度拉伸\n最后一课！"]:::current
+
+    L07["⑦ 直方图均衡化"] -.->|"对比度增强对比"| L12
+    L09 -.->|"共用 convertTo"| L12
+
+    classDef current fill:#4CAF50,color:#fff,stroke:#2E7D32,stroke-width:3px
 ```
-  ⑨ 颜色调整 → ⑩ 反相 → ⑪ 二值化 → ⑫ 对比度拉伸
-                                      ★ 本课（最后一课！）
 
-  本课是"点运算"系列的终章。回顾整个系列：
+**全系列回顾**：
 
-  课程 01-05：图像 I/O + 窗口 + 形态学基础
-  课程 06-12：七种点运算（逐像素变换）
+```mermaid
+flowchart TD
+    subgraph IO["图像 I/O + 窗口"]
+        L01["① 生成保存"] --> L02["② 读取显示"] --> L03["③ 窗口交互"]
+    end
+    subgraph MORPH["形态学"]
+        L04["④ 腐蚀膨胀"] --> L05["⑤ 边界提取"]
+    end
+    subgraph POINT["点运算系列"]
+        L06["⑥ Gamma"] --> L07p["⑦ 直方图"]
+        L06 --> L08["⑧ 截断"]
+        L06 --> L09p["⑨ 颜色"]
+        L06 --> L10p["⑩ 反相"]
+        L06 --> L11p["⑪ 二值化"]
+        L06 --> L12p["⑫ 对比度拉伸 ★"]
+    end
 
-  对比度拉伸 vs 直方图均衡化：
-  ├── 均衡化（课程 07）：非线性，按 CDF 映射
-  └── 拉伸（本课）   ：线性，按 min-max 映射
+    L03 --> L04
+    L03 --> L06
 
-  convertTo 在多个课程出现：
-  课程 09（通道缩放）→ 课程 12（线性拉伸）
+    style IO fill:#C8E6C9,stroke:#2E7D32
+    style MORPH fill:#BBDEFB,stroke:#1565C0
+    style POINT fill:#FFE0B2,stroke:#E65100
+    style L12p fill:#4CAF50,color:#fff
 ```
+
+- 本课是“点运算”系列的终章。
+- 对比度拉伸 vs 直方图均衡化：拉伸是线性（min-max 映射），均衡化是非线性（CDF 映射）。
+- `convertTo` 在多个课程出现：课程 09（通道缩放）→ 课程 12（线性拉伸）。
 
 ---
 

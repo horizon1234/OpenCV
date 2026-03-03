@@ -377,16 +377,23 @@ cv::bitwise_not(top_half, top_half);
 
 ## 十、知识地图
 
-```
-  ⑦ 直方图 → ⑧ 截断 → ⑨ 颜色调整 → ⑩ 反相 → ⑪ 二值化
-                                      ★ 本课
+```mermaid
+graph LR
+    L07["⑦ 直方图"] --> L08["⑧ 截断"]
+    L08 --> L09["⑨ 颜色调整"]
+    L09 --> L10["★ ⑩ 反相\nbitwise_not"]:::current
+    L10 --> L11["⑪ 二值化"]
+    L11 --> L12["⑫ 对比度拉伸"]
 
-  反相是最简单的点运算之一（一行代码）。
-  但理解 bitwise 运算对后续的掩膜操作很重要。
+    L10 -.->|"按位运算家族"| AND["AND 掩膌提取"]
+    L10 -.-> OR["OR 区域合并"]
+    L10 -.-> XOR["XOR 差异检测"]
 
-  按位运算家族：
-  NOT(本课) → AND(掩膜提取) → OR(区域合并) → XOR(差异检测)
+    classDef current fill:#FF9800,color:#fff,stroke:#E65100,stroke-width:3px
 ```
+
+- 反相是最简单的点运算之一（一行代码）。
+- 理解 bitwise 运算对后续的掩膌操作很重要。
 
 ---
 

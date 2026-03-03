@@ -294,19 +294,20 @@ for (int i = 0; i < 5; i++) {
 
 ## 九、知识地图
 
-```
-  ⑥ Gamma 校正 → ⑦ 直方图均衡化 → ⑧ 截断 → ⑨ 颜色调整
-                                    ★ 本课
-                                        → ⑩ 反相
-                                        → ⑪ 二值化（同样用 threshold！）
-                                        → ⑫ 对比度拉伸
+```mermaid
+graph LR
+    L06["⑥ Gamma 校正"] --> L07["⑦ 直方图均衡化"]
+    L07 --> L08["★ ⑧ 截断\nTHRESH_TRUNC"]:::current
+    L08 --> L09["⑨ 颜色调整"]
+    L08 --> L10["⑩ 反相"]
+    L08 --> L11["⑪ 二值化\n同样用 threshold！"]
+    L11 --> L12["⑫ 对比度拉伸"]
 
-  本课的 cv::threshold 函数在课程 11（二值化）中会再次使用。
-  五种 threshold 模式在本课全部介绍了，是后续课程的基础。
-
-  阈值操作家族：
-  截断(本课) → 二值化(课程11) → Otsu 自动阈值
+    classDef current fill:#FF9800,color:#fff,stroke:#E65100,stroke-width:3px
 ```
+
+- 本课的 `cv::threshold` 函数在课程 11（二值化）中会再次使用。
+- 五种 threshold 模式在本课全部介绍了，是后续课程的基础。
 
 ---
 
