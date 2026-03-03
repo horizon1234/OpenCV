@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     configure_file(
         ${CMAKE_SOURCE_DIR}/cmake/run_viewer.bat.in
@@ -13,7 +12,6 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
         @ONLY
     )
 endif()
-
 # 固定 Qt 6.8.3 安装路径（允许命令行覆盖）
 if (NOT DEFINED CMAKE_PREFIX_PATH)
     set(CMAKE_PREFIX_PATH "/opt/Qt6.8.3/6.8.3/gcc_64" CACHE PATH "Qt 6.8.3 prefix")
@@ -28,18 +26,18 @@ find_package(OpenCV REQUIRED)
 add_executable(${PROJECT_NAME}
     main.cpp
     main_window.cpp
-    "lesson01_imwrite/imwrite_lesson_widget.cpp"
-    "lesson02_imread/imread_lesson_widget.cpp"
-    "lesson03_named_window/named_window_lesson_widget.cpp"
-    "lesson04_morphology/morphology_trackbar_lesson_widget.cpp"
-    "lesson05_erosion_boundary/erosion_boundary_lesson_widget.cpp"
-    "lesson06_point_gray_transform/point_gray_transform_lesson_widget.cpp"
-    "lesson07_point_histogram/point_histogram_lesson_widget.cpp"
-    "lesson08_point_truncation/point_truncation_lesson_widget.cpp"
-    "lesson09_point_color_adjust/point_color_adjust_lesson_widget.cpp"
-    "lesson10_point_invert/point_invert_lesson_widget.cpp"
-    "lesson11_point_threshold/point_threshold_lesson_widget.cpp"
-    "lesson12_point_contrast_stretch/point_contrast_stretch_lesson_widget.cpp"
+    "01 生成并保存图片/imwrite_lesson_widget.cpp"
+    "02 读取并显示图片/imread_lesson_widget.cpp"
+    "03 窗口显示/named_window_lesson_widget.cpp"
+    "04 腐蚀与膨胀/morphology_trackbar_lesson_widget.cpp"
+    "05 边界提取/erosion_boundary_lesson_widget.cpp"
+    "06 点运算-灰度变换/point_gray_transform_lesson_widget.cpp"
+    "07 点运算-直方图/point_histogram_lesson_widget.cpp"
+    "08 点运算-截断/point_truncation_lesson_widget.cpp"
+    "09 点运算-提升饱和度与颜色/point_color_adjust_lesson_widget.cpp"
+    "10 点运算-反相/point_invert_lesson_widget.cpp"
+    "11 点运算-二值化/point_threshold_lesson_widget.cpp"
+    "12 点运算-对比度拉伸/point_contrast_stretch_lesson_widget.cpp"
     mat_to_qimage.cpp
 )
 

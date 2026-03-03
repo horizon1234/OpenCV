@@ -7,18 +7,18 @@
 #include <QStackedWidget>
 #include <QVBoxLayout>
 
-#include "lesson01_imwrite/imwrite_lesson_widget.h"
-#include "lesson02_imread/imread_lesson_widget.h"
-#include "lesson03_named_window/named_window_lesson_widget.h"
-#include "lesson04_morphology/morphology_trackbar_lesson_widget.h"
-#include "lesson05_erosion_boundary/erosion_boundary_lesson_widget.h"
-#include "lesson06_point_gray_transform/point_gray_transform_lesson_widget.h"
-#include "lesson07_point_histogram/point_histogram_lesson_widget.h"
-#include "lesson08_point_truncation/point_truncation_lesson_widget.h"
-#include "lesson09_point_color_adjust/point_color_adjust_lesson_widget.h"
-#include "lesson10_point_invert/point_invert_lesson_widget.h"
-#include "lesson11_point_threshold/point_threshold_lesson_widget.h"
-#include "lesson12_point_contrast_stretch/point_contrast_stretch_lesson_widget.h"
+#include "01 生成并保存图片/imwrite_lesson_widget.h"
+#include "02 读取并显示图片/imread_lesson_widget.h"
+#include "03 窗口显示/named_window_lesson_widget.h"
+#include "04 腐蚀与膨胀/morphology_trackbar_lesson_widget.h"
+#include "05 边界提取/erosion_boundary_lesson_widget.h"
+#include "06 点运算-灰度变换/point_gray_transform_lesson_widget.h"
+#include "07 点运算-直方图/point_histogram_lesson_widget.h"
+#include "08 点运算-截断/point_truncation_lesson_widget.h"
+#include "09 点运算-提升饱和度与颜色/point_color_adjust_lesson_widget.h"
+#include "10 点运算-反相/point_invert_lesson_widget.h"
+#include "11 点运算-二值化/point_threshold_lesson_widget.h"
+#include "12 点运算-对比度拉伸/point_contrast_stretch_lesson_widget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
