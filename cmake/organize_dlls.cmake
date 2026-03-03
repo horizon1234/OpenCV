@@ -2,7 +2,7 @@ if (NOT DEFINED TARGET_DIR)
     message(FATAL_ERROR "TARGET_DIR is not defined")
 endif()
 
-set(DLL_DIR "${TARGET_DIR}/dlls")
+set(DLL_DIR "${TARGET_DIR}/dll")
 file(MAKE_DIRECTORY "${DLL_DIR}")
 
 file(GLOB ROOT_DLLS "${TARGET_DIR}/*.dll")

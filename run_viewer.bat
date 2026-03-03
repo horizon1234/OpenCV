@@ -2,4 +2,4 @@
 setlocal
 set "APP_DIR=%~dp0"
 set "PATH=%APP_DIR%dll;%PATH%"
-"%APP_DIR%@PROJECT_NAME@.exe"
+"%APP_DIR%QtOpenCVWebpViewer.exe"

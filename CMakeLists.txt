@@ -56,6 +56,9 @@ add_custom_command(
             $<TARGET_FILE:${PROJECT_NAME}>
             ${CMAKE_SOURCE_DIR}
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_BINARY_DIR}/run_viewer.bat
+            ${CMAKE_SOURCE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${CMAKE_SOURCE_DIR}/cat.jpg
         $<TARGET_FILE_DIR:${PROJECT_NAME}>
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -110,6 +113,9 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
         TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND}
             -DTARGET_DIR=$<TARGET_FILE_DIR:${PROJECT_NAME}>
+            -P ${CMAKE_SOURCE_DIR}/cmake/organize_dlls.cmake
+        COMMAND ${CMAKE_COMMAND}
+            -DTARGET_DIR=${CMAKE_SOURCE_DIR}
             -P ${CMAKE_SOURCE_DIR}/cmake/organize_dlls.cmake
         COMMENT "Organizing runtime DLLs to dlls folder"
     )
