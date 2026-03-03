@@ -6,6 +6,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    configure_file(
+        ${CMAKE_SOURCE_DIR}/cmake/run_viewer.bat.in
+        ${CMAKE_BINARY_DIR}/run_viewer.bat
+        @ONLY
+    )
+endif()
+
 # 固定 Qt 6.8.3 安装路径（允许命令行覆盖）
 if (NOT DEFINED CMAKE_PREFIX_PATH)
     set(CMAKE_PREFIX_PATH "/opt/Qt6.8.3/6.8.3/gcc_64" CACHE PATH "Qt 6.8.3 prefix")
@@ -94,10 +102,15 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
                     ${OPENCV_RUNTIME_DLLS}
                     $<TARGET_FILE_DIR:${PROJECT_NAME}>
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                    ${OPENCV_RUNTIME_DLLS}
-                    ${CMAKE_SOURCE_DIR}
             COMMENT "Copying OpenCV runtime DLLs"
         )
     endif()
+
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND}
+            -DTARGET_DIR=$<TARGET_FILE_DIR:${PROJECT_NAME}>
+            -P ${CMAKE_SOURCE_DIR}/cmake/organize_dlls.cmake
+        COMMENT "Organizing runtime DLLs to dlls folder"
+    )
 endif()
