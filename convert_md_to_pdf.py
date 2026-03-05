@@ -7,6 +7,10 @@ import re
 import glob
 import subprocess
 import tempfile
+import json
+import zlib
+import base64
+import urllib.request
 
 import markdown2
 import latex2mathml.converter
@@ -163,6 +167,16 @@ TEMPLATE = """\
     margin: 16px 0;
     overflow-x: auto;
   }}
+  /* Mermaid diagrams */
+  .mermaid-diagram {{
+    text-align: center;
+    margin: 20px 0;
+    page-break-inside: avoid;
+  }}
+  .mermaid-diagram svg {{
+    max-width: 100%;
+    height: auto;
+  }}
   /* Pygments syntax highlighting */
   {code_css}
   .codehilite pre {{
@@ -176,6 +190,56 @@ TEMPLATE = """\
 </body>
 </html>
 """
+
+
+def render_mermaid_svg(mermaid_code):
+    """Render mermaid code to SVG using mermaid.ink API."""
+    import html as html_mod
+    import time as time_mod
+    # Unescape HTML entities that may appear in markdown
+    mermaid_code = html_mod.unescape(mermaid_code)
+    # In stateDiagram, '::' is interpreted as a CSS class selector by Mermaid.
+    # Escape C++ scope operator like 'cv::line' to avoid parse errors.
+    if mermaid_code.lstrip().startswith("stateDiagram"):
+        mermaid_code = re.sub(r'(\w)::', lambda m: m.group(1) + '\u2236\u2236', mermaid_code)
+    jdata = json.dumps({"code": mermaid_code, "mermaid": {"theme": "default"}})
+    compressed = zlib.compress(jdata.encode("utf-8"), 9)
+    encoded = base64.urlsafe_b64encode(compressed).decode("ascii")
+    url = f"https://mermaid.ink/svg/pako:{encoded}"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    # Retry up to 3 times with delay for rate limiting
+    for attempt in range(3):
+        try:
+            data = urllib.request.urlopen(req, timeout=30).read()
+            return data.decode("utf-8")
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 503) and attempt < 2:
+                time_mod.sleep(3 * (attempt + 1))
+                continue
+            raise
+        except Exception:
+            if attempt < 2:
+                time_mod.sleep(2)
+                continue
+            raise
+
+
+def convert_mermaid_blocks(text):
+    """Convert ```mermaid code blocks to inline SVG."""
+    import time as time_mod
+    call_count = [0]
+    def replace_mermaid(m):
+        code = m.group(1).strip()
+        if call_count[0] > 0:
+            time_mod.sleep(1.5)  # Rate limit: wait between API calls
+        call_count[0] += 1
+        try:
+            svg = render_mermaid_svg(code)
+            return f'\n<div class="mermaid-diagram">{svg}</div>\n'
+        except Exception as e:
+            print(f"\n    [mermaid warn: {e}]", end="", flush=True)
+            return m.group(0)  # Keep original on failure
+    return re.sub(r'```mermaid\s*\n([\s\S]*?)```', replace_mermaid, text)
 
 
 def convert_latex_to_mathml(text):
@@ -218,6 +282,9 @@ def md_to_html(md_path):
     """Convert markdown to rich HTML with syntax highlighting."""
     with open(md_path, "r", encoding="utf-8") as f:
         text = f.read()
+
+    # Convert mermaid blocks to inline SVG before markdown processing
+    text = convert_mermaid_blocks(text)
 
     # Convert LaTeX math to MathML before markdown processing
     text = convert_latex_to_mathml(text)
