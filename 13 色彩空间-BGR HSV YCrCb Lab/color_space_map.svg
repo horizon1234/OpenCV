@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="680" viewBox="0 0 980 680">
+  <rect width="980" height="680" fill="#f8f5ef"/>
+  <text x="60" y="72" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#1c1c1c">When to choose which color space</text>
+  <text x="60" y="108" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#444">A compact mental map for BGR, HSV, YCrCb, and Lab.</text>
+
+  <rect x="70" y="160" width="190" height="420" rx="24" fill="#e9f0ff" stroke="#78a1e6" stroke-width="2"/>
+  <text x="145" y="214" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#163f7a">BGR</text>
+  <text x="95" y="260" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#233">Best for</text>
+  <text x="95" y="295" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Display and storage</text>
+  <text x="95" y="326" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Simple channel mixing</text>
+  <text x="95" y="357" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Quick warm and cool looks</text>
+  <text x="95" y="420" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#233">Watch out</text>
+  <text x="95" y="455" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Brightness and color are coupled</text>
+  <text x="95" y="486" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Semantic color thresholds are fragile</text>
+
+  <rect x="290" y="160" width="190" height="420" rx="24" fill="#fff1d8" stroke="#f0a94f" stroke-width="2"/>
+  <text x="364" y="214" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#7a4a11">HSV</text>
+  <text x="315" y="260" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#233">Best for</text>
+  <text x="315" y="295" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Color segmentation</text>
+  <text x="315" y="326" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Saturation tuning</text>
+  <text x="315" y="357" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Human-friendly color controls</text>
+  <text x="315" y="420" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#233">Watch out</text>
+  <text x="315" y="455" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Hue is circular, not linear</text>
+  <text x="315" y="486" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">V is not perfect perceptual lightness</text>
+
+  <rect x="510" y="160" width="190" height="420" rx="24" fill="#e5f7ea" stroke="#68b27a" stroke-width="2"/>
+  <text x="552" y="214" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#1a5b2b">YCrCb</text>
+  <text x="535" y="260" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#233">Best for</text>
+  <text x="535" y="295" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Brightness-only enhancement</text>
+  <text x="535" y="326" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Histogram equalization</text>
+  <text x="535" y="357" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Stable luminance and chroma split</text>
+  <text x="535" y="420" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#233">Watch out</text>
+  <text x="535" y="455" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Cr and Cb are color differences</text>
+  <text x="535" y="486" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Not the most intuitive hue model</text>
+
+  <rect x="730" y="160" width="190" height="420" rx="24" fill="#f4e9ff" stroke="#a47cd8" stroke-width="2"/>
+  <text x="808" y="214" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#583183">Lab</text>
+  <text x="755" y="260" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#233">Best for</text>
+  <text x="755" y="295" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Perceptual color analysis</text>
+  <text x="755" y="326" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Lightness-only edits</text>
+  <text x="755" y="357" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Advanced clustering and delta E work</text>
+  <text x="755" y="420" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#233">Watch out</text>
+  <text x="755" y="455" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Less intuitive for beginners</text>
+  <text x="755" y="486" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">Usually used in more algorithmic tasks</text>
+
+  <text x="76" y="625" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#333">Shortcut: BGR for direct channel work, HSV for color meaning, YCrCb for brightness without color drift, Lab for perceptual analysis.</text>
+</svg>

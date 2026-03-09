@@ -35,6 +35,10 @@ graph LR
         MW --> L10["10 反相<br/>bitwise_not"]
         MW --> L11["11 二值化<br/>threshold BINARY"]
         MW --> L12["12 对比度拉伸<br/>minMaxLoc + convertTo"]
+        MW --> L13["13 色彩空间<br/>BGR / HSV / YCrCb / Lab"]
+        MW --> L14["14 颜色阈值分割<br/>inRange / mask"]
+        MW --> L15["15 分割后处理<br/>morphology / components"]
+        MW --> L16["16 连通区域分析<br/>stats / filtering"]
         UTIL["mat_to_qimage.*<br/>Mat → QImage 转换"] -.->|"各课程共用"| MW
     end
 
@@ -59,6 +63,10 @@ graph TD
     L06 --> L10["10 反相"]
     L06 --> L11["11 二值化"]
     L06 --> L12["12 对比度拉伸"]
+    L06 --> L13["13 色彩空间-BGR HSV YCrCb Lab"]
+    L06 --> L14["14 颜色阈值分割-inRange"]
+    L06 --> L15["15 分割后处理-形态学与连通区域"]
+    L15 --> L16["16 连通区域分析-connectedComponentsWithStats"]
 
     subgraph "基础篇"
         L01
@@ -78,6 +86,10 @@ graph TD
         L10
         L11
         L12
+        L13
+        L14
+        L15
+        L16
     end
 
     style L01 fill:#C8E6C9
@@ -92,6 +104,10 @@ graph TD
     style L10 fill:#FFE0B2
     style L11 fill:#FFE0B2
     style L12 fill:#FFE0B2
+    style L13 fill:#FFE0B2
+    style L14 fill:#FFE0B2
+    style L15 fill:#FFE0B2
+    style L16 fill:#FFE0B2
 ```
 
 ### 文件列表
@@ -109,4 +125,8 @@ graph TD
 - 10 点运算-反相/：点运算反相子项目
 - 11 点运算-二值化/：点运算二值化子项目
 - 12 点运算-对比度拉伸/：点运算对比度拉伸子项目
+- 13 色彩空间-BGR HSV YCrCb Lab/：色彩空间入门与用途对比子项目
+- 14 颜色阈值分割-inRange/：颜色分割与 inRange 子项目
+- 15 分割后处理-形态学与连通区域/：分割后处理与连通区域筛选子项目
+- 16 连通区域分析-connectedComponentsWithStats/：连通区域标号、面积筛选与最大区域子项目
 - mat_to_qimage.*：OpenCV 到 QImage 转换

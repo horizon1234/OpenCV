@@ -1,11 +1,15 @@
 # Build outputs
 /build/
+/build-*/
 QtOpenCVWebpViewer.exe
+QtOpenCVWebpViewer
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
 compile_commands.json
+generated_from_imwrite.png
+run_viewer.bat
 
 # Qt/CMake/IDE artifacts
 .qt/

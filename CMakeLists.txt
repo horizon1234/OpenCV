@@ -41,6 +41,10 @@ set(LESSON_SOURCES
     "10 点运算-反相/point_invert_lesson_widget.cpp"
     "11 点运算-二值化/point_threshold_lesson_widget.cpp"
     "12 点运算-对比度拉伸/point_contrast_stretch_lesson_widget.cpp"
+    "13 色彩空间-BGR HSV YCrCb Lab/color_space_lesson_widget.cpp"
+    "14 颜色阈值分割-inRange/color_threshold_lesson_widget.cpp"
+    "15 分割后处理-形态学与连通区域/segmentation_postprocess_lesson_widget.cpp"
+    "16 连通区域分析-connectedComponentsWithStats/connected_components_lesson_widget.cpp"
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -83,6 +87,10 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     copy_lesson_sources("10 点运算-反相" "lesson10" LESSON10_CPP)
     copy_lesson_sources("11 点运算-二值化" "lesson11" LESSON11_CPP)
     copy_lesson_sources("12 点运算-对比度拉伸" "lesson12" LESSON12_CPP)
+    copy_lesson_sources("13 色彩空间-BGR HSV YCrCb Lab" "lesson13" LESSON13_CPP)
+    copy_lesson_sources("14 颜色阈值分割-inRange" "lesson14" LESSON14_CPP)
+    copy_lesson_sources("15 分割后处理-形态学与连通区域" "lesson15" LESSON15_CPP)
+    copy_lesson_sources("16 连通区域分析-connectedComponentsWithStats" "lesson16" LESSON16_CPP)
 
     set(LESSON_SOURCES
         ${LESSON01_CPP}
@@ -97,6 +105,10 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
         ${LESSON10_CPP}
         ${LESSON11_CPP}
         ${LESSON12_CPP}
+        ${LESSON13_CPP}
+        ${LESSON14_CPP}
+        ${LESSON15_CPP}
+        ${LESSON16_CPP}
     )
 endif()
 
@@ -120,9 +132,6 @@ add_custom_command(
             $<TARGET_FILE:${PROJECT_NAME}>
             ${CMAKE_SOURCE_DIR}
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_BINARY_DIR}/run_viewer.bat
-            ${CMAKE_SOURCE_DIR}
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${CMAKE_SOURCE_DIR}/cat.jpg
         $<TARGET_FILE_DIR:${PROJECT_NAME}>
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -137,6 +146,13 @@ add_custom_command(
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_BINARY_DIR}/run_viewer.bat
+                ${CMAKE_SOURCE_DIR}
+    )
+
     set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE TRUE)
 
     find_program(

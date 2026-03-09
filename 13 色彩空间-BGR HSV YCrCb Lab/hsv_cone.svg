@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="620" viewBox="0 0 920 620">
+  <rect width="920" height="620" fill="#f7f4ee"/>
+  <text x="60" y="70" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#1c1c1c">HSV cone schematic</text>
+  <text x="60" y="108" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#444">Original diagram for this lesson: hue is around the circle, saturation grows outward, value grows upward.</text>
+
+  <ellipse cx="420" cy="210" rx="180" ry="58" fill="#ffffff" stroke="#444" stroke-width="2"/>
+  <path d="M240 210 L420 515 L600 210" fill="url(#coneBody)" stroke="#444" stroke-width="2"/>
+  <ellipse cx="420" cy="210" rx="180" ry="58" fill="url(#hueRing)" fill-opacity="0.85" stroke="#444" stroke-width="2"/>
+  <ellipse cx="420" cy="210" rx="54" ry="18" fill="#ffffff" stroke="#888" stroke-width="1.5"/>
+
+  <line x1="420" y1="530" x2="420" y2="110" stroke="#202020" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="442" y="146" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#111">V</text>
+  <text x="468" y="146" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Value increases upward</text>
+
+  <line x1="420" y1="210" x2="575" y2="210" stroke="#202020" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="520" y="196" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#111">S</text>
+  <text x="596" y="216" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Saturation grows outward</text>
+
+  <path d="M620 178 C680 150, 730 165, 760 210" fill="none" stroke="#202020" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="708" y="150" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#111">H</text>
+  <text x="630" y="252" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Hue moves around the ring</text>
+
+  <circle cx="260" cy="210" r="8" fill="#e53935"/>
+  <circle cx="420" cy="152" r="8" fill="#fdd835"/>
+  <circle cx="577" cy="210" r="8" fill="#43a047"/>
+  <circle cx="420" cy="268" r="8" fill="#1e88e5"/>
+  <text x="194" y="198" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#333">red</text>
+  <text x="432" y="140" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#333">yellow</text>
+  <text x="588" y="198" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#333">green</text>
+  <text x="432" y="292" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#333">blue</text>
+
+  <text x="80" y="420" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#111">Reading tips</text>
+  <text x="80" y="458" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">1. Same angle, different radius: same hue, different saturation.</text>
+  <text x="80" y="490" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">2. Same angle and radius, different height: same hue family, different brightness.</text>
+  <text x="80" y="522" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">3. Near the center, colors become grayish because saturation is low.</text>
+
+  <defs>
+    <linearGradient id="coneBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff6c6"/>
+      <stop offset="50%" stop-color="#ffd2bc"/>
+      <stop offset="100%" stop-color="#7267cb"/>
+    </linearGradient>
+    <linearGradient id="hueRing" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e53935"/>
+      <stop offset="18%" stop-color="#fb8c00"/>
+      <stop offset="33%" stop-color="#fdd835"/>
+      <stop offset="50%" stop-color="#43a047"/>
+      <stop offset="67%" stop-color="#00acc1"/>
+      <stop offset="84%" stop-color="#1e88e5"/>
+      <stop offset="100%" stop-color="#8e24aa"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#202020"/>
+    </marker>
+  </defs>
+</svg>

@@ -19,6 +19,10 @@
 #include "10 点运算-反相/point_invert_lesson_widget.h"
 #include "11 点运算-二值化/point_threshold_lesson_widget.h"
 #include "12 点运算-对比度拉伸/point_contrast_stretch_lesson_widget.h"
+#include "13 色彩空间-BGR HSV YCrCb Lab/color_space_lesson_widget.h"
+#include "14 颜色阈值分割-inRange/color_threshold_lesson_widget.h"
+#include "15 分割后处理-形态学与连通区域/segmentation_postprocess_lesson_widget.h"
+#include "16 连通区域分析-connectedComponentsWithStats/connected_components_lesson_widget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -39,7 +43,11 @@ MainWindow::MainWindow(QWidget *parent)
         PointColorAdjustPageIndex = 9,
         PointInvertPageIndex = 10,
         PointThresholdPageIndex = 11,
-        PointContrastStretchPageIndex = 12
+        PointContrastStretchPageIndex = 12,
+        ColorSpacePageIndex = 13,
+        ColorThresholdPageIndex = 14,
+        SegmentationPostprocessPageIndex = 15,
+        ConnectedComponentsPageIndex = 16
     };
 
     auto *homePage = new QWidget();
@@ -97,6 +105,22 @@ MainWindow::MainWindow(QWidget *parent)
     auto *pointContrastItem = new QListWidgetItem(QStringLiteral("点运算：对比度拉伸"));
     pointContrastItem->setData(Qt::UserRole, PointContrastStretchPageIndex);
     lessonList->addItem(pointContrastItem);
+
+    auto *colorSpaceItem = new QListWidgetItem(QStringLiteral("色彩空间：BGR / HSV / YCrCb / Lab"));
+    colorSpaceItem->setData(Qt::UserRole, ColorSpacePageIndex);
+    lessonList->addItem(colorSpaceItem);
+
+    auto *colorThresholdItem = new QListWidgetItem(QStringLiteral("颜色阈值分割：inRange"));
+    colorThresholdItem->setData(Qt::UserRole, ColorThresholdPageIndex);
+    lessonList->addItem(colorThresholdItem);
+
+    auto *segmentationPostprocessItem = new QListWidgetItem(QStringLiteral("分割后处理：形态学与连通区域"));
+    segmentationPostprocessItem->setData(Qt::UserRole, SegmentationPostprocessPageIndex);
+    lessonList->addItem(segmentationPostprocessItem);
+
+    auto *connectedComponentsItem = new QListWidgetItem(QStringLiteral("连通区域分析：connectedComponentsWithStats"));
+    connectedComponentsItem->setData(Qt::UserRole, ConnectedComponentsPageIndex);
+    lessonList->addItem(connectedComponentsItem);
 
     homeLayout->addWidget(homeTitle);
     homeLayout->addWidget(lessonList, 1);
@@ -197,6 +221,38 @@ MainWindow::MainWindow(QWidget *parent)
     pointContrastLayout->addWidget(pointContrastBackButton, 0, Qt::AlignLeft);
     pointContrastLayout->addWidget(pointContrastLesson, 1);
 
+    auto *colorSpacePage = new QWidget();
+    auto *colorSpaceLayout = new QVBoxLayout(colorSpacePage);
+    auto *colorSpaceBackButton = new QPushButton(QStringLiteral("返回首页"), colorSpacePage);
+    auto *colorSpaceLesson = new ColorSpaceLessonWidget(colorSpacePage);
+
+    colorSpaceLayout->addWidget(colorSpaceBackButton, 0, Qt::AlignLeft);
+    colorSpaceLayout->addWidget(colorSpaceLesson, 1);
+
+    auto *colorThresholdPage = new QWidget();
+    auto *colorThresholdLayout = new QVBoxLayout(colorThresholdPage);
+    auto *colorThresholdBackButton = new QPushButton(QStringLiteral("返回首页"), colorThresholdPage);
+    auto *colorThresholdLesson = new ColorThresholdLessonWidget(colorThresholdPage);
+
+    colorThresholdLayout->addWidget(colorThresholdBackButton, 0, Qt::AlignLeft);
+    colorThresholdLayout->addWidget(colorThresholdLesson, 1);
+
+    auto *segmentationPostprocessPage = new QWidget();
+    auto *segmentationPostprocessLayout = new QVBoxLayout(segmentationPostprocessPage);
+    auto *segmentationPostprocessBackButton = new QPushButton(QStringLiteral("返回首页"), segmentationPostprocessPage);
+    auto *segmentationPostprocessLesson = new SegmentationPostprocessLessonWidget(segmentationPostprocessPage);
+
+    segmentationPostprocessLayout->addWidget(segmentationPostprocessBackButton, 0, Qt::AlignLeft);
+    segmentationPostprocessLayout->addWidget(segmentationPostprocessLesson, 1);
+
+    auto *connectedComponentsPage = new QWidget();
+    auto *connectedComponentsLayout = new QVBoxLayout(connectedComponentsPage);
+    auto *connectedComponentsBackButton = new QPushButton(QStringLiteral("返回首页"), connectedComponentsPage);
+    auto *connectedComponentsLesson = new ConnectedComponentsLessonWidget(connectedComponentsPage);
+
+    connectedComponentsLayout->addWidget(connectedComponentsBackButton, 0, Qt::AlignLeft);
+    connectedComponentsLayout->addWidget(connectedComponentsLesson, 1);
+
     stack->addWidget(homePage);
     stack->addWidget(imwritePage);
     stack->addWidget(imreadPage);
@@ -210,6 +266,10 @@ MainWindow::MainWindow(QWidget *parent)
     stack->addWidget(pointInvertPage);
     stack->addWidget(pointThresholdPage);
     stack->addWidget(pointContrastPage);
+    stack->addWidget(colorSpacePage);
+    stack->addWidget(colorThresholdPage);
+    stack->addWidget(segmentationPostprocessPage);
+    stack->addWidget(connectedComponentsPage);
 
     QObject::connect(lessonList, &QListWidget::itemClicked, stack, [this](QListWidgetItem *item) {
         const int pageIndex = item->data(Qt::UserRole).toInt();
@@ -249,6 +309,18 @@ MainWindow::MainWindow(QWidget *parent)
         stack->setCurrentIndex(HomePageIndex);
     });
     QObject::connect(pointContrastBackButton, &QPushButton::clicked, stack, [this]() {
+        stack->setCurrentIndex(HomePageIndex);
+    });
+    QObject::connect(colorSpaceBackButton, &QPushButton::clicked, stack, [this]() {
+        stack->setCurrentIndex(HomePageIndex);
+    });
+    QObject::connect(colorThresholdBackButton, &QPushButton::clicked, stack, [this]() {
+        stack->setCurrentIndex(HomePageIndex);
+    });
+    QObject::connect(segmentationPostprocessBackButton, &QPushButton::clicked, stack, [this]() {
+        stack->setCurrentIndex(HomePageIndex);
+    });
+    QObject::connect(connectedComponentsBackButton, &QPushButton::clicked, stack, [this]() {
         stack->setCurrentIndex(HomePageIndex);
     });
 

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="620" viewBox="0 0 920 620">
+  <rect width="920" height="620" fill="#fcfaf4"/>
+  <text x="60" y="70" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#1c1c1c">Hue wheel and red wrap-around</text>
+  <text x="60" y="108" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#444">This is why red often needs two HSV ranges in OpenCV.</text>
+
+  <circle cx="320" cy="300" r="190" fill="none" stroke="url(#wheel)" stroke-width="72"/>
+  <circle cx="320" cy="300" r="118" fill="#fffdf8" stroke="#ddd" stroke-width="2"/>
+
+  <path d="M320 110 A190 190 0 0 1 432 146" fill="none" stroke="#111" stroke-width="5"/>
+  <path d="M320 110 A190 190 0 0 0 208 146" fill="none" stroke="#111" stroke-width="5"/>
+  <text x="285" y="88" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#111">Red</text>
+  <text x="468" y="160" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">0 to 12</text>
+  <text x="116" y="160" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">168 to 179</text>
+
+  <line x1="320" y1="300" x2="320" y2="110" stroke="#444" stroke-width="2"/>
+  <line x1="320" y1="300" x2="484" y2="207" stroke="#444" stroke-width="2"/>
+  <line x1="320" y1="300" x2="484" y2="395" stroke="#444" stroke-width="2"/>
+  <line x1="320" y1="300" x2="320" y2="490" stroke="#444" stroke-width="2"/>
+  <line x1="320" y1="300" x2="156" y2="395" stroke="#444" stroke-width="2"/>
+  <line x1="320" y1="300" x2="156" y2="207" stroke="#444" stroke-width="2"/>
+
+  <text x="305" y="126" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">0</text>
+  <text x="486" y="207" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">30</text>
+  <text x="494" y="402" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">60</text>
+  <text x="313" y="518" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">90</text>
+  <text x="122" y="402" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">120</text>
+  <text x="112" y="207" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">150</text>
+  <text x="278" y="300" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#222">H</text>
+
+  <text x="560" y="180" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#111">OpenCV hue scale</text>
+  <text x="560" y="220" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">OpenCV stores hue in 0 to 179 instead of 0 to 360 degrees.</text>
+  <text x="560" y="254" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Red sits at both ends of the circular axis, so one linear interval is not enough.</text>
+
+  <rect x="560" y="315" width="290" height="135" rx="16" fill="#fff" stroke="#d8d2c5" stroke-width="2"/>
+  <text x="585" y="355" font-family="Courier New, monospace" font-size="19" fill="#111">mask1: H = [0, 12]</text>
+  <text x="585" y="388" font-family="Courier New, monospace" font-size="19" fill="#111">mask2: H = [168, 179]</text>
+  <text x="585" y="421" font-family="Courier New, monospace" font-size="19" fill="#111">mask  = mask1 OR mask2</text>
+
+  <defs>
+    <linearGradient id="wheel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e53935"/>
+      <stop offset="17%" stop-color="#fb8c00"/>
+      <stop offset="33%" stop-color="#fdd835"/>
+      <stop offset="50%" stop-color="#43a047"/>
+      <stop offset="67%" stop-color="#00acc1"/>
+      <stop offset="84%" stop-color="#1e88e5"/>
+      <stop offset="100%" stop-color="#d81b60"/>
+    </linearGradient>
+  </defs>
+</svg>
