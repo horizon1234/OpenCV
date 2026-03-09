@@ -3,6 +3,13 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
+#include <QScrollArea>
+#include <QSvgWidget>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -42,6 +49,22 @@ ColorSpaceLessonWidget::ColorSpaceLessonWidget(QWidget *parent)
     row3->addWidget(btnBGRWrong);
     row3->addStretch();
 
+    auto *row4 = new QHBoxLayout();
+    auto *btnHSVCone = new QPushButton(QStringLiteral("示意图：HSV 圆锥"), this);
+    auto *btnHueWheel = new QPushButton(QStringLiteral("示意图：Hue 色相环"), this);
+    row4->addStretch();
+    row4->addWidget(btnHSVCone);
+    row4->addWidget(btnHueWheel);
+    row4->addStretch();
+
+    auto *row5 = new QHBoxLayout();
+    auto *btnMap = new QPushButton(QStringLiteral("示意图：空间选择总览"), this);
+    auto *btnRBoost = new QPushButton(QStringLiteral("示意图：只增加 R"), this);
+    row5->addStretch();
+    row5->addWidget(btnMap);
+    row5->addWidget(btnRBoost);
+    row5->addStretch();
+
     statusLabel = new QLabel(QStringLiteral("建议按顺序观察：BGR -> HSV -> YCrCb -> Lab -> 用途对比"), this);
     statusLabel->setStyleSheet(QStringLiteral("color: #555;"));
     statusLabel->setWordWrap(true);
@@ -50,6 +73,8 @@ ColorSpaceLessonWidget::ColorSpaceLessonWidget(QWidget *parent)
     layout->addLayout(row1);
     layout->addLayout(row2);
     layout->addLayout(row3);
+    layout->addLayout(row4);
+    layout->addLayout(row5);
     layout->addWidget(statusLabel);
 
     waitKeyTimer = new QTimer(this);
@@ -65,6 +90,10 @@ ColorSpaceLessonWidget::ColorSpaceLessonWidget(QWidget *parent)
     connect(btnCompare, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showUseCaseComparison);
     connect(btnHSVSeg, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showHSVRedSegmentation);
     connect(btnBGRWrong, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showBGRTresholdPitfall);
+    connect(btnHSVCone, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showHSVConeDiagram);
+    connect(btnHueWheel, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showHueWheelDiagram);
+    connect(btnMap, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showColorSpaceMapDiagram);
+    connect(btnRBoost, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showBGRRBoostDiagram);
 }
 
 void ColorSpaceLessonWidget::ensureTimer()
@@ -87,6 +116,59 @@ void ColorSpaceLessonWidget::closeAllWindows()
 cv::Mat ColorSpaceLessonWidget::loadColorImage() const
 {
     return cv::imread("cat.jpg", cv::IMREAD_COLOR);
+}
+
+void ColorSpaceLessonWidget::showDiagramPreview(const QString &fileName,
+                                                const QString &title,
+                                                const QString &description)
+{
+    closeAllWindows();
+
+    if (diagramDialog)
+    {
+        diagramDialog->close();
+        diagramDialog = nullptr;
+    }
+
+    const QString absolutePath = QDir(QCoreApplication::applicationDirPath()).filePath(fileName);
+
+    auto *dialog = new QDialog(this);
+    diagramDialog = dialog;
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->setWindowTitle(title);
+    dialog->resize(980, 760);
+
+    connect(dialog, &QObject::destroyed, this, [this]() {
+        diagramDialog = nullptr;
+    });
+
+    auto *layout = new QVBoxLayout(dialog);
+    auto *descLabel = new QLabel(description, dialog);
+    descLabel->setWordWrap(true);
+    descLabel->setStyleSheet(QStringLiteral("color: #444;"));
+    layout->addWidget(descLabel);
+
+    if (!QFileInfo::exists(absolutePath))
+    {
+        auto *errorLabel = new QLabel(QStringLiteral("未找到示意图文件：%1").arg(absolutePath), dialog);
+        errorLabel->setWordWrap(true);
+        layout->addWidget(errorLabel);
+    }
+    else
+    {
+        auto *scrollArea = new QScrollArea(dialog);
+        scrollArea->setWidgetResizable(true);
+        auto *svgWidget = new QSvgWidget(absolutePath, scrollArea);
+        svgWidget->setMinimumSize(920, 620);
+        scrollArea->setWidget(svgWidget);
+        layout->addWidget(scrollArea, 1);
+    }
+
+    auto *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close, dialog);
+    connect(buttonBox, &QDialogButtonBox::rejected, dialog, &QDialog::close);
+    layout->addWidget(buttonBox);
+
+    dialog->show();
 }
 
 cv::Mat ColorSpaceLessonWidget::makeGrayPreview(const cv::Mat &channel)
@@ -442,4 +524,36 @@ void ColorSpaceLessonWidget::showBGRTresholdPitfall()
 
     statusLabel->setText(QStringLiteral("BGR 阈值误区：直接用 BGR 三通道框颜色，通常对光照和明暗变化更敏感；颜色分割更推荐 HSV。"));
     ensureTimer();
+}
+
+void ColorSpaceLessonWidget::showHSVConeDiagram()
+{
+    showDiagramPreview(QStringLiteral("hsv_cone.svg"),
+                       QStringLiteral("HSV 圆锥示意图"),
+                       QStringLiteral("这张图把 H、S、V 的空间含义画出来了：H 沿圆周转动，S 从中心向外增加，V 沿竖直方向增加。"));
+    statusLabel->setText(QStringLiteral("已打开 HSV 圆锥示意图：适合先建立 H/S/V 的空间直觉。"));
+}
+
+void ColorSpaceLessonWidget::showHueWheelDiagram()
+{
+    showDiagramPreview(QStringLiteral("hue_wheel.svg"),
+                       QStringLiteral("Hue 色相环"),
+                       QStringLiteral("这张图专门解释 OpenCV 的 H 为什么是 0~179，以及红色为什么常常需要两段区间。"));
+    statusLabel->setText(QStringLiteral("已打开 Hue 色相环：重点观察红色跨越 H 轴首尾这件事。"));
+}
+
+void ColorSpaceLessonWidget::showColorSpaceMapDiagram()
+{
+    showDiagramPreview(QStringLiteral("color_space_map.svg"),
+                       QStringLiteral("色彩空间选择总览"),
+                       QStringLiteral("这张图适合回答一个最实际的问题：当前任务到底应该优先选 BGR、HSV、YCrCb 还是 Lab。"));
+    statusLabel->setText(QStringLiteral("已打开色彩空间选择总览：适合把四种空间的用途快速对齐。"));
+}
+
+void ColorSpaceLessonWidget::showBGRRBoostDiagram()
+{
+    showDiagramPreview(QStringLiteral("bgr_r_boost_example.svg"),
+                       QStringLiteral("只增加 R 的效果"),
+                       QStringLiteral("这张图对应文档中的 BGR 例子：只加 R 不只是“更红”，还会连带改变主观亮度和通道平衡。"));
+    statusLabel->setText(QStringLiteral("已打开“只增加 R”的示意图：适合和文档里的数值例子一起看。"));
 }

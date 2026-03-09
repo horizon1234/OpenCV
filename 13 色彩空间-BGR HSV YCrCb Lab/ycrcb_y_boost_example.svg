@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="640" viewBox="0 0 980 640">
+  <rect width="980" height="640" fill="#f7f4ee"/>
+
+  <text x="52" y="66" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#1a1a1a">YCrCb: keep Cr and Cb, change only Y</text>
+  <text x="52" y="102" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#444">This illustrates why YCrCb is convenient when you want to brighten an image without strongly changing color tendency.</text>
+
+  <rect x="58" y="148" width="360" height="416" rx="24" fill="#fffdf8" stroke="#d9d1c5" stroke-width="2"/>
+  <text x="92" y="198" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1a1a1a">Before</text>
+  <text x="92" y="234" font-family="Courier New, monospace" font-size="19" fill="#333">Y = 110, Cr = 170, Cb = 90</text>
+  <rect x="98" y="272" width="280" height="136" rx="18" fill="#b06d4b" stroke="#8f7c6a" stroke-width="2"/>
+  <text x="102" y="442" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Darker warm brown-orange, color tendency already set by Cr/Cb.</text>
+
+  <g transform="translate(92 478)">
+    <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">YCrCb bars</text>
+    <text x="0" y="36" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#333">Y</text>
+    <rect x="34" y="20" width="140" height="18" rx="9" fill="#ece5d4"/>
+    <rect x="34" y="20" width="60" height="18" rx="9" fill="#8f7a43"/>
+    <text x="0" y="68" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#333">Cr</text>
+    <rect x="34" y="52" width="140" height="18" rx="9" fill="#ffe0dc"/>
+    <rect x="34" y="52" width="93" height="18" rx="9" fill="#d55b4f"/>
+    <text x="0" y="100" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#333">Cb</text>
+    <rect x="34" y="84" width="140" height="18" rx="9" fill="#dde9ff"/>
+    <rect x="34" y="84" width="49" height="18" rx="9" fill="#5b83d5"/>
+  </g>
+
+  <rect x="560" y="148" width="360" height="416" rx="24" fill="#fffdf8" stroke="#d9d1c5" stroke-width="2"/>
+  <text x="594" y="198" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1a1a1a">After only raising Y</text>
+  <text x="594" y="234" font-family="Courier New, monospace" font-size="19" fill="#333">Y = 150, Cr = 170, Cb = 90</text>
+  <rect x="600" y="272" width="280" height="136" rx="18" fill="#db946b" stroke="#8f7c6a" stroke-width="2"/>
+  <text x="604" y="442" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Brighter version of the same warm tone, without a big hue direction shift.</text>
+
+  <g transform="translate(594 478)">
+    <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">YCrCb bars</text>
+    <text x="0" y="36" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#333">Y</text>
+    <rect x="34" y="20" width="140" height="18" rx="9" fill="#ece5d4"/>
+    <rect x="34" y="20" width="82" height="18" rx="9" fill="#8f7a43"/>
+    <text x="0" y="68" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#333">Cr</text>
+    <rect x="34" y="52" width="140" height="18" rx="9" fill="#ffe0dc"/>
+    <rect x="34" y="52" width="93" height="18" rx="9" fill="#d55b4f"/>
+    <text x="0" y="100" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#333">Cb</text>
+    <rect x="34" y="84" width="140" height="18" rx="9" fill="#dde9ff"/>
+    <rect x="34" y="84" width="49" height="18" rx="9" fill="#5b83d5"/>
+  </g>
+
+  <line x1="428" y1="338" x2="546" y2="338" stroke="#262626" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="440" y="316" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#1a1a1a">Increase Y only</text>
+
+  <text x="58" y="608" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#333">Key idea: when Cr and Cb stay fixed, the image mainly gets brighter or darker while keeping a similar color bias.</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#262626"/>
+    </marker>
+  </defs>
+</svg>

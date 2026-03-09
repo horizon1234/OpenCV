@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="620" viewBox="0 0 980 620">
+  <rect width="980" height="620" fill="#f8f5ef"/>
+
+  <text x="52" y="66" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#1a1a1a">Cr variation: same Y, same Cb, different red tendency</text>
+  <text x="52" y="102" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#444">Only Cr changes here, so brightness stays comparable while the image shifts from less red to more red.</text>
+
+  <rect x="58" y="150" width="260" height="360" rx="24" fill="#fffdf8" stroke="#d9d1c5" stroke-width="2"/>
+  <text x="116" y="204" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1a1a1a">Low Cr</text>
+  <text x="92" y="238" font-family="Courier New, monospace" font-size="19" fill="#333">Y = 140, Cr = 100, Cb = 110</text>
+  <rect x="102" y="272" width="170" height="140" rx="20" fill="#68827a" stroke="#7c8780" stroke-width="2"/>
+  <text x="96" y="448" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Less red influence, cooler and greener.</text>
+
+  <rect x="360" y="150" width="260" height="360" rx="24" fill="#fffdf8" stroke="#d9d1c5" stroke-width="2"/>
+  <text x="398" y="204" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1a1a1a">Medium Cr</text>
+  <text x="392" y="238" font-family="Courier New, monospace" font-size="19" fill="#333">Y = 140, Cr = 140, Cb = 110</text>
+  <rect x="404" y="272" width="170" height="140" rx="20" fill="#938470" stroke="#8d877b" stroke-width="2"/>
+  <text x="388" y="448" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">More neutral warm-brown balance.</text>
+
+  <rect x="662" y="150" width="260" height="360" rx="24" fill="#fffdf8" stroke="#d9d1c5" stroke-width="2"/>
+  <text x="726" y="204" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1a1a1a">High Cr</text>
+  <text x="694" y="238" font-family="Courier New, monospace" font-size="19" fill="#333">Y = 140, Cr = 190, Cb = 110</text>
+  <rect x="706" y="272" width="170" height="140" rx="20" fill="#c96e57" stroke="#9d7d75" stroke-width="2"/>
+  <text x="686" y="448" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Clearly warmer, with stronger red/orange bias.</text>
+
+  <line x1="146" y1="556" x2="836" y2="556" stroke="#2a2a2a" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="402" y="540" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#1a1a1a">Cr increases</text>
+
+  <text x="58" y="592" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Key idea: Cr is not the raw red channel. It is a red-difference direction, so higher Cr usually pushes the color impression toward red or warm tones.</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#2a2a2a"/>
+    </marker>
+  </defs>
+</svg>

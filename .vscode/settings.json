@@ -1,3 +1,16 @@
 {
-  "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json"
+  "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+  "github.copilot.chat.backgroundAgent.enabled": true,
+  "github.copilot.chat.claudeAgent.enabled": true,
+  "github.copilot.chat.claudeAgent.allowDangerouslySkipPermissions": true,
+  "github.copilot.chat.switchAgent.enabled": true,
+  "github.copilot.chat.searchSubagent.enabled": true,
+  "github.copilot.chat.tools.memory.enabled": true,
+  "github.copilot.chat.newWorkspaceCreation.enabled": true,
+  "github.copilot.chat.setupTests.enabled": true,
+  "github.copilot.chat.reviewAgent.enabled": true,
+  "github.copilot.chat.reviewSelection.enabled": true,
+  "github.copilot.chat.additionalReadAccessPaths": [
+    "/home/zhangyuanhao"
+  ]
 }

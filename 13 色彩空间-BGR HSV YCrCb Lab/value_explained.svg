@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="620" viewBox="0 0 980 620">
+  <rect width="980" height="620" fill="#f8f5ef"/>
+
+  <text x="54" y="66" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#1a1a1a">Value: same hue, same saturation, different brightness</text>
+  <text x="54" y="102" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#444">The color family stays red and the saturation stays high, but the brightness changes as V increases.</text>
+
+  <rect x="58" y="150" width="260" height="360" rx="24" fill="#fffdf8" stroke="#d9d1c5" stroke-width="2"/>
+  <text x="128" y="204" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1a1a1a">Low V</text>
+  <text x="100" y="238" font-family="Courier New, monospace" font-size="20" fill="#333">H = red, S = 255, V = 80</text>
+  <rect x="102" y="272" width="170" height="140" rx="20" fill="#500000" stroke="#7a5858" stroke-width="2"/>
+  <text x="108" y="448" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Looks dark and heavy, but still red.</text>
+
+  <rect x="360" y="150" width="260" height="360" rx="24" fill="#fffdf8" stroke="#d9d1c5" stroke-width="2"/>
+  <text x="418" y="204" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1a1a1a">Medium V</text>
+  <text x="392" y="238" font-family="Courier New, monospace" font-size="20" fill="#333">H = red, S = 255, V = 160</text>
+  <rect x="404" y="272" width="170" height="140" rx="20" fill="#a00000" stroke="#955050" stroke-width="2"/>
+  <text x="398" y="448" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Brighter and clearer, still the same hue family.</text>
+
+  <rect x="662" y="150" width="260" height="360" rx="24" fill="#fffdf8" stroke="#d9d1c5" stroke-width="2"/>
+  <text x="734" y="204" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1a1a1a">High V</text>
+  <text x="694" y="238" font-family="Courier New, monospace" font-size="20" fill="#333">H = red, S = 255, V = 255</text>
+  <rect x="706" y="272" width="170" height="140" rx="20" fill="#ff0000" stroke="#a94040" stroke-width="2"/>
+  <text x="690" y="448" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Bright and vivid, close to the “full power” red.</text>
+
+  <line x1="146" y1="556" x2="836" y2="556" stroke="#2a2a2a" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="402" y="540" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#1a1a1a">V increases</text>
+
+  <text x="60" y="592" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Key idea: value mostly changes light and dark impression, while saturation is about purity, not brightness.</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#2a2a2a"/>
+    </marker>
+  </defs>
+</svg>

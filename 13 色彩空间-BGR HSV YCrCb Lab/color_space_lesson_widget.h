@@ -6,6 +6,7 @@
 #include <vector>
 
 class QLabel;
+class QDialog;
 class QTimer;
 
 namespace cv
@@ -21,6 +22,7 @@ public:
 private:
     QLabel *titleLabel = nullptr;
     QLabel *statusLabel = nullptr;
+    QDialog *diagramDialog = nullptr;
     QTimer *waitKeyTimer = nullptr;
     std::vector<std::string> windowNames;
 
@@ -35,6 +37,11 @@ private:
     void showUseCaseComparison();
     void showHSVRedSegmentation();
     void showBGRTresholdPitfall();
+    void showHSVConeDiagram();
+    void showHueWheelDiagram();
+    void showColorSpaceMapDiagram();
+    void showBGRRBoostDiagram();
+    void showDiagramPreview(const QString &fileName, const QString &title, const QString &description);
 
     static cv::Mat makeGrayPreview(const cv::Mat &channel);
     static cv::Mat makeHuePreview(const cv::Mat &hChannel);

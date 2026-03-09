@@ -25,7 +25,7 @@ if (NOT DEFINED Qt6_DIR)
     set(Qt6_DIR "/opt/Qt6.8.3/6.8.3/gcc_64/lib/cmake/Qt6" CACHE PATH "Qt 6.8.3 CMake config")
 endif()
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets SvgWidgets)
 find_package(OpenCV REQUIRED)
 
 set(LESSON_SOURCES
@@ -122,6 +122,7 @@ add_executable(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         Qt6::Widgets
+        Qt6::SvgWidgets
         ${OpenCV_LIBS}
 )
 
