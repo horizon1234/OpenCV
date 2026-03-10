@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="320" viewBox="0 0 980 320">
+  <rect width="980" height="320" fill="#f4efe5"/>
+  <text x="40" y="44" font-size="28" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#2b241c">Lab 中固定 a/b，只调整 L</text>
+  <text x="40" y="78" font-size="18" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6d5f51">L 主要控制明度层次。a、b 不变时，颜色倾向基本不换，主要变化是亮和暗。</text>
+
+  <g transform="translate(55,120)">
+    <rect x="0" y="0" width="240" height="140" rx="18" fill="#5b4938" stroke="#3a2d22" stroke-width="2"/>
+    <rect x="68" y="26" width="104" height="88" rx="18" fill="#8e5d43"/>
+    <circle cx="86" cy="62" r="9" fill="#bc7f5b"/>
+    <circle cx="154" cy="78" r="12" fill="#c99169"/>
+    <text x="20" y="126" font-size="20" font-family="monospace" fill="#fff4e9">L = 70</text>
+    <text x="168" y="126" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#f6e7d9">偏暗</text>
+  </g>
+
+  <g transform="translate(370,120)">
+    <rect x="0" y="0" width="240" height="140" rx="18" fill="#8f755b" stroke="#5d4c3d" stroke-width="2"/>
+    <rect x="68" y="26" width="104" height="88" rx="18" fill="#cb875f"/>
+    <circle cx="86" cy="62" r="9" fill="#ecaa7d"/>
+    <circle cx="154" cy="78" r="12" fill="#f2bc90"/>
+    <text x="20" y="126" font-size="20" font-family="monospace" fill="#fff8ef">L = 145</text>
+    <text x="160" y="126" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#fff1e2">中等亮</text>
+  </g>
+
+  <g transform="translate(685,120)">
+    <rect x="0" y="0" width="240" height="140" rx="18" fill="#d1b79a" stroke="#9c866d" stroke-width="2"/>
+    <rect x="68" y="26" width="104" height="88" rx="18" fill="#f0b184"/>
+    <circle cx="86" cy="62" r="9" fill="#ffd0aa"/>
+    <circle cx="154" cy="78" r="12" fill="#ffe2c2"/>
+    <text x="20" y="126" font-size="20" font-family="monospace" fill="#4a3727">L = 220</text>
+    <text x="160" y="126" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5a4532">提亮</text>
+  </g>
+
+  <path d="M304 190 L352 190" stroke="#7f6a57" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M619 190 L667 190" stroke="#7f6a57" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7f6a57"/>
+    </marker>
+  </defs>
+</svg>

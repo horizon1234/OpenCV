@@ -41,7 +41,12 @@ private:
     void showHueWheelDiagram();
     void showColorSpaceMapDiagram();
     void showBGRRBoostDiagram();
+    void showLabLDiagram();
+    void showLabADiagram();
+    void showLabBDiagram();
+    void showBrightnessComparisonDiagram();
     void showDiagramPreview(const QString &fileName, const QString &title, const QString &description);
+    QString resolveDiagramPath(const QString &fileName) const;
 
     static cv::Mat makeGrayPreview(const cv::Mat &channel);
     static cv::Mat makeHuePreview(const cv::Mat &hChannel);

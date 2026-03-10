@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="320" viewBox="0 0 980 320">
+  <rect width="980" height="320" fill="#f1f3ec"/>
+  <text x="40" y="44" font-size="28" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#26311f">Lab 中固定 L/b，只调整 a</text>
+  <text x="40" y="78" font-size="18" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5f6a55">a 从小到大，大致对应从偏绿到偏红。这里明度层次基本保持，主要变的是色彩方向。</text>
+
+  <g transform="translate(55,120)">
+    <rect x="0" y="0" width="240" height="140" rx="18" fill="#6e8060" stroke="#44523d" stroke-width="2"/>
+    <rect x="68" y="26" width="104" height="88" rx="18" fill="#7ca267"/>
+    <circle cx="86" cy="62" r="9" fill="#acd78d"/>
+    <circle cx="154" cy="78" r="12" fill="#c2ebb0"/>
+    <text x="20" y="126" font-size="20" font-family="monospace" fill="#eef7e7">a = 80</text>
+    <text x="166" y="126" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#eef7e7">偏绿</text>
+  </g>
+
+  <g transform="translate(370,120)">
+    <rect x="0" y="0" width="240" height="140" rx="18" fill="#968870" stroke="#685d4d" stroke-width="2"/>
+    <rect x="68" y="26" width="104" height="88" rx="18" fill="#b59b78"/>
+    <circle cx="86" cy="62" r="9" fill="#d6ba94"/>
+    <circle cx="154" cy="78" r="12" fill="#e4cbab"/>
+    <text x="20" y="126" font-size="20" font-family="monospace" fill="#fff7ed">a = 128</text>
+    <text x="158" y="126" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#fff7ed">中性</text>
+  </g>
+
+  <g transform="translate(685,120)">
+    <rect x="0" y="0" width="240" height="140" rx="18" fill="#a06a60" stroke="#71473f" stroke-width="2"/>
+    <rect x="68" y="26" width="104" height="88" rx="18" fill="#cb7c70"/>
+    <circle cx="86" cy="62" r="9" fill="#eda090"/>
+    <circle cx="154" cy="78" r="12" fill="#f4b5a8"/>
+    <text x="20" y="126" font-size="20" font-family="monospace" fill="#fff2ef">a = 185</text>
+    <text x="166" y="126" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#fff2ef">偏红</text>
+  </g>
+
+  <path d="M304 190 L352 190" stroke="#71806a" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M619 190 L667 190" stroke="#71806a" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#71806a"/>
+    </marker>
+  </defs>
+</svg>

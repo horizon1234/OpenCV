@@ -8,6 +8,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
+#include <QStringList>
 #include <QScrollArea>
 #include <QSvgWidget>
 #include <QTimer>
@@ -65,7 +66,23 @@ ColorSpaceLessonWidget::ColorSpaceLessonWidget(QWidget *parent)
     row5->addWidget(btnRBoost);
     row5->addStretch();
 
-    statusLabel = new QLabel(QStringLiteral("建议按顺序观察：BGR -> HSV -> YCrCb -> Lab -> 用途对比"), this);
+    auto *row6 = new QHBoxLayout();
+    auto *btnLabL = new QPushButton(QStringLiteral("示意图：Lab 的 L"), this);
+    auto *btnLabA = new QPushButton(QStringLiteral("示意图：Lab 的 a"), this);
+    auto *btnLabB = new QPushButton(QStringLiteral("示意图：Lab 的 b"), this);
+    row6->addStretch();
+    row6->addWidget(btnLabL);
+    row6->addWidget(btnLabA);
+    row6->addWidget(btnLabB);
+    row6->addStretch();
+
+    auto *row7 = new QHBoxLayout();
+    auto *btnBrightnessCompare = new QPushButton(QStringLiteral("示意图：四种空间提亮对比"), this);
+    row7->addStretch();
+    row7->addWidget(btnBrightnessCompare);
+    row7->addStretch();
+
+    statusLabel = new QLabel(QStringLiteral("建议按顺序观察：BGR -> HSV -> YCrCb -> Lab -> 用途对比，再看各类示意图。"), this);
     statusLabel->setStyleSheet(QStringLiteral("color: #555;"));
     statusLabel->setWordWrap(true);
 
@@ -75,6 +92,8 @@ ColorSpaceLessonWidget::ColorSpaceLessonWidget(QWidget *parent)
     layout->addLayout(row3);
     layout->addLayout(row4);
     layout->addLayout(row5);
+    layout->addLayout(row6);
+    layout->addLayout(row7);
     layout->addWidget(statusLabel);
 
     waitKeyTimer = new QTimer(this);
@@ -94,6 +113,10 @@ ColorSpaceLessonWidget::ColorSpaceLessonWidget(QWidget *parent)
     connect(btnHueWheel, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showHueWheelDiagram);
     connect(btnMap, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showColorSpaceMapDiagram);
     connect(btnRBoost, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showBGRRBoostDiagram);
+    connect(btnLabL, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showLabLDiagram);
+    connect(btnLabA, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showLabADiagram);
+    connect(btnLabB, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showLabBDiagram);
+    connect(btnBrightnessCompare, &QPushButton::clicked, this, &ColorSpaceLessonWidget::showBrightnessComparisonDiagram);
 }
 
 void ColorSpaceLessonWidget::ensureTimer()
@@ -118,6 +141,29 @@ cv::Mat ColorSpaceLessonWidget::loadColorImage() const
     return cv::imread("cat.jpg", cv::IMREAD_COLOR);
 }
 
+QString ColorSpaceLessonWidget::resolveDiagramPath(const QString &fileName) const
+{
+    const QString appDir = QCoreApplication::applicationDirPath();
+    const QString lessonDir = QStringLiteral("13 色彩空间-BGR HSV YCrCb Lab");
+    const QStringList candidates = {
+        QDir(appDir).filePath(fileName),
+        QDir(appDir).filePath(lessonDir + QDir::separator() + fileName),
+        QDir(appDir).filePath(QStringLiteral("../") + lessonDir + QDir::separator() + fileName),
+        QDir::current().filePath(fileName),
+        QDir::current().filePath(lessonDir + QDir::separator() + fileName)
+    };
+
+    for (const QString &candidate : candidates)
+    {
+        if (QFileInfo::exists(candidate))
+        {
+            return candidate;
+        }
+    }
+
+    return QDir(appDir).filePath(fileName);
+}
+
 void ColorSpaceLessonWidget::showDiagramPreview(const QString &fileName,
                                                 const QString &title,
                                                 const QString &description)
@@ -130,7 +176,7 @@ void ColorSpaceLessonWidget::showDiagramPreview(const QString &fileName,
         diagramDialog = nullptr;
     }
 
-    const QString absolutePath = QDir(QCoreApplication::applicationDirPath()).filePath(fileName);
+    const QString absolutePath = resolveDiagramPath(fileName);
 
     auto *dialog = new QDialog(this);
     diagramDialog = dialog;
@@ -556,4 +602,36 @@ void ColorSpaceLessonWidget::showBGRRBoostDiagram()
                        QStringLiteral("只增加 R 的效果"),
                        QStringLiteral("这张图对应文档中的 BGR 例子：只加 R 不只是“更红”，还会连带改变主观亮度和通道平衡。"));
     statusLabel->setText(QStringLiteral("已打开“只增加 R”的示意图：适合和文档里的数值例子一起看。"));
+}
+
+void ColorSpaceLessonWidget::showLabLDiagram()
+{
+    showDiagramPreview(QStringLiteral("lab_l_variation.svg"),
+                       QStringLiteral("Lab 中固定 a/b，只调整 L"),
+                       QStringLiteral("这张图专门说明 Lab 里的 L 更接近“明度层次”。固定 a、b 时，提高 L 的主要效果是变亮，而不是明显偏色。"));
+    statusLabel->setText(QStringLiteral("已打开 Lab 的 L 示意图：重点看“同色系变亮”，而不是“换色”。"));
+}
+
+void ColorSpaceLessonWidget::showLabADiagram()
+{
+    showDiagramPreview(QStringLiteral("lab_a_variation.svg"),
+                       QStringLiteral("Lab 中固定 L/b，只调整 a"),
+                       QStringLiteral("这张图对应 Lab 的绿红对立轴。a 从小到大，大致是从偏绿走向偏红，但它不是原始 R 通道。"));
+    statusLabel->setText(QStringLiteral("已打开 Lab 的 a 示意图：重点看颜色方向沿“绿到红”变化。"));
+}
+
+void ColorSpaceLessonWidget::showLabBDiagram()
+{
+    showDiagramPreview(QStringLiteral("lab_b_variation.svg"),
+                       QStringLiteral("Lab 中固定 L/a，只调整 b"),
+                       QStringLiteral("这张图对应 Lab 的蓝黄对立轴。b 从小到大，大致是从偏蓝走向偏黄，更接近主观冷暖变化。"));
+    statusLabel->setText(QStringLiteral("已打开 Lab 的 b 示意图：重点看颜色方向沿“蓝到黄”变化。"));
+}
+
+void ColorSpaceLessonWidget::showBrightnessComparisonDiagram()
+{
+    showDiagramPreview(QStringLiteral("brightness_space_comparison.svg"),
+                       QStringLiteral("四种空间的提亮结果对比"),
+                       QStringLiteral("这张图把“提亮”放到 BGR、HSV、YCrCb、Lab 里并排对照。核心结论不是谁更强，而是不同空间控制的是不同视觉属性。"));
+    statusLabel->setText(QStringLiteral("已打开“四种空间提亮对比”示意图：适合和用途对比窗口一起看。"));
 }
