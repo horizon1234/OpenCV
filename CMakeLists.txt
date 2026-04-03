@@ -28,6 +28,46 @@ endif()
 find_package(Qt6 REQUIRED COMPONENTS Widgets SvgWidgets)
 find_package(OpenCV REQUIRED)
 
+function(copy_advanced_lesson_sources out_var)
+    set(advanced_src_dir "${CMAKE_BINARY_DIR}/advanced_src")
+    file(MAKE_DIRECTORY "${advanced_src_dir}")
+
+    set(copied_cpp_files)
+    foreach(lesson_id RANGE 17 60)
+        file(GLOB lesson_dirs LIST_DIRECTORIES true RELATIVE "${CMAKE_SOURCE_DIR}"
+            "${lesson_id}*"
+        )
+
+        foreach(lesson_dir IN LISTS lesson_dirs)
+            if (NOT IS_DIRECTORY "${CMAKE_SOURCE_DIR}/${lesson_dir}")
+                continue()
+            endif()
+
+            set(safe_dir "lesson_${lesson_id}")
+            set(dst_dir "${advanced_src_dir}/${safe_dir}")
+            file(MAKE_DIRECTORY "${dst_dir}")
+
+            file(GLOB lesson_files CONFIGURE_DEPENDS
+                "${CMAKE_SOURCE_DIR}/${lesson_dir}/*.cpp"
+                "${CMAKE_SOURCE_DIR}/${lesson_dir}/*.h"
+            )
+
+            foreach(src_file IN LISTS lesson_files)
+                get_filename_component(file_name "${src_file}" NAME)
+                set(dst_file "${dst_dir}/${file_name}")
+                configure_file("${src_file}" "${dst_file}" COPYONLY)
+                if (file_name MATCHES "\\.cpp$")
+                    list(APPEND copied_cpp_files "${dst_file}")
+                endif()
+            endforeach()
+        endforeach()
+    endforeach()
+
+    set(${out_var} ${copied_cpp_files} PARENT_SCOPE)
+endfunction()
+
+copy_advanced_lesson_sources(ADVANCED_LESSON_SOURCES)
+
 set(LESSON_SOURCES
     "01 生成并保存图片/imwrite_lesson_widget.cpp"
     "02 读取并显示图片/imread_lesson_widget.cpp"
@@ -116,7 +156,17 @@ add_executable(${PROJECT_NAME}
     main.cpp
     main_window.cpp
     ${LESSON_SOURCES}
+    ${ADVANCED_LESSON_SOURCES}
+    advanced_lesson_factory.cpp
+    advanced_lesson_runtime.cpp
+    advanced_lesson_widget_support.cpp
     mat_to_qimage.cpp
+)
+
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}
+    ${CMAKE_BINARY_DIR}/advanced_src
 )
 
 target_link_libraries(${PROJECT_NAME}

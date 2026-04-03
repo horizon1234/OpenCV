@@ -1,5 +1,6 @@
 #include "morphology_trackbar_lesson_widget.h"
 
+#include <algorithm>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -18,9 +19,93 @@ struct MorphologyState
     int erodeSize = 0;  // 腐蚀大小
     int dilateSize = 0; // 膨胀大小
     int mode = 0; // 0: 彩色 1: 灰度 2: 二值
+    int kernelShape = cv::MORPH_RECT; // 结构元素形状
+    int operation = 0; // 0: erode+dilate 1: open 2: close 3: gradient
 };
 
 MorphologyState *gState = nullptr;
+MorphologyTrackbarLessonWidget *gWidget = nullptr;
+
+QString modeName(int mode)
+{
+    switch (mode)
+    {
+    case 0:
+        return QStringLiteral("彩色");
+    case 1:
+        return QStringLiteral("灰度");
+    case 2:
+        return QStringLiteral("二值");
+    default:
+        return QStringLiteral("未知");
+    }
+}
+
+QString kernelShapeName(int kernelShape)
+{
+    switch (kernelShape)
+    {
+    case cv::MORPH_RECT:
+        return QStringLiteral("矩形核");
+    case cv::MORPH_CROSS:
+        return QStringLiteral("十字核");
+    case cv::MORPH_ELLIPSE:
+        return QStringLiteral("椭圆核");
+    default:
+        return QStringLiteral("未知核");
+    }
+}
+
+QString operationName(int operation)
+{
+    switch (operation)
+    {
+    case 0:
+        return QStringLiteral("基础模式：先腐蚀再膨胀");
+    case 1:
+        return QStringLiteral("开运算：先腐蚀后膨胀");
+    case 2:
+        return QStringLiteral("闭运算：先膨胀后腐蚀");
+    case 3:
+        return QStringLiteral("形态学梯度：膨胀 - 腐蚀");
+    default:
+        return QStringLiteral("未知操作");
+    }
+}
+
+cv::Mat buildKernel(const MorphologyState *state, int radius)
+{
+    const int k = radius * 2 + 1;
+    return cv::getStructuringElement(state->kernelShape, cv::Size(k, k));
+}
+
+QString buildStatusText(const MorphologyState *state)
+{
+    if (!state || state->original.empty())
+    {
+        return QStringLiteral("尚未加载图片。");
+    }
+
+    const int erodeKernel = state->erodeSize * 2 + 1;
+    const int dilateKernel = state->dilateSize * 2 + 1;
+    return QStringLiteral("当前模式：%1\n当前核形状：%2\n当前操作：%3\n腐蚀半径：%4（核大小 %5×%5）\n膨胀半径：%6（核大小 %7×%7）\n说明：腐蚀取局部最小值，膨胀取局部最大值；开闭运算和梯度可用来验证形态学的组合性质。"
+                             )
+        .arg(modeName(state->mode))
+        .arg(kernelShapeName(state->kernelShape))
+        .arg(operationName(state->operation))
+        .arg(state->erodeSize)
+        .arg(erodeKernel)
+        .arg(state->dilateSize)
+        .arg(dilateKernel);
+}
+
+void refreshWidgetStatus()
+{
+    if (gWidget)
+    {
+        gWidget->updateStatusText();
+    }
+}
 
 void applyMorphology(MorphologyState *state)
 {
@@ -45,29 +130,45 @@ void applyMorphology(MorphologyState *state)
         state->display = state->original.clone();   // 重置为原始图像
     }
 
-    if (state->erodeSize > 0)   // 应用腐蚀，它的效果是让亮区域(前景)变小，暗区域变大，能够去除小的白色噪点，分开连接在一起的物体。
+    if (state->operation == 0)
     {   
-        // 腐蚀核越大，图片越暗淡
-        const int k = state->erodeSize * 2 + 1; // 计算核大小
-        // 创建矩形结构元素作为腐蚀核，其中函数getStructuringElement的名字含义是“获取结构元素”，第一个参数指定形状，第二个参数指定大小。
-        cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(k, k));
-        // 执行腐蚀操作，参数依次为：输入图像、输出图像、腐蚀核
-        // 把每个像素替换成其领域内的最小值，所以亮区域会变小，暗区域会变大。核越大，被替换的范围越大，效果越明显。
-        cv::erode(state->display, state->display, kernel);
-    }
+        if (state->erodeSize > 0)
+        {
+            cv::erode(state->display, state->display, buildKernel(state, state->erodeSize));
+        }
 
-    if (state->dilateSize > 0)   // 应用膨胀，它的效果是让亮区域(前景)变大，暗区域变小，能够填补小的黑色孔洞，连接断开的物体。
+        if (state->dilateSize > 0)
+        {
+            cv::dilate(state->display, state->display, buildKernel(state, state->dilateSize));
+        }
+    }
+    else if (state->operation == 1)
     {
-        // 膨胀核越大，图片越明亮
-        const int k = state->dilateSize * 2 + 1; // 计算核大小
-        // 创建矩形结构元素作为膨胀核，其中函数getStructuringElement的名字含义是“获取结构元素”，第一个参数指定形状，第二个参数指定大小。
-        cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(k, k));
-        // 执行膨胀操作，参数依次为：输入图像、输出图像、膨胀核
-        // 把每个像素替换成其领域内的最大值，所以亮区域会变大，暗区域会变小。核越大，被替换的范围越大，效果越明显。
-        cv::dilate(state->display, state->display, kernel);
+        const int radius = std::max(state->erodeSize, state->dilateSize);
+        if (radius > 0)
+        {
+            cv::morphologyEx(state->display, state->display, cv::MORPH_OPEN, buildKernel(state, radius));
+        }
+    }
+    else if (state->operation == 2)
+    {
+        const int radius = std::max(state->erodeSize, state->dilateSize);
+        if (radius > 0)
+        {
+            cv::morphologyEx(state->display, state->display, cv::MORPH_CLOSE, buildKernel(state, radius));
+        }
+    }
+    else if (state->operation == 3)
+    {
+        const int radius = std::max(state->erodeSize, state->dilateSize);
+        if (radius > 0)
+        {
+            cv::morphologyEx(state->display, state->display, cv::MORPH_GRADIENT, buildKernel(state, radius));
+        }
     }
 
     cv::imshow(state->windowName, state->display);   // 显示处理后的图像
+    refreshWidgetStatus();
 }
 
 // 回调函数：处理腐蚀滑动条变化
@@ -93,11 +194,32 @@ void onDilateTrackbar(int value, void *userdata)
     state->dilateSize = value;
     applyMorphology(state);
 }
+
+void setKernelShape(MorphologyState *state, int kernelShape)
+{
+    if (!state)
+    {
+        return;
+    }
+    state->kernelShape = kernelShape;
+    applyMorphology(state);
+}
+
+void setOperation(MorphologyState *state, int operation)
+{
+    if (!state)
+    {
+        return;
+    }
+    state->operation = operation;
+    applyMorphology(state);
+}
 } // namespace
 
 MorphologyTrackbarLessonWidget::MorphologyTrackbarLessonWidget(QWidget *parent)
     : QWidget(parent)
 {
+    gWidget = this;
     auto *layout = new QVBoxLayout(this);
 
     titleLabel = new QLabel(QStringLiteral("滑动条：腐蚀与膨胀"), this);
@@ -118,9 +240,34 @@ MorphologyTrackbarLessonWidget::MorphologyTrackbarLessonWidget(QWidget *parent)
     buttonLayout->addWidget(binaryButton);
     buttonLayout->addStretch();
 
+    auto *kernelLayout = new QHBoxLayout();
+    auto *rectButton = new QPushButton(QStringLiteral("矩形核"), this);
+    auto *crossButton = new QPushButton(QStringLiteral("十字核"), this);
+    auto *ellipseButton = new QPushButton(QStringLiteral("椭圆核"), this);
+    kernelLayout->addStretch();
+    kernelLayout->addWidget(rectButton);
+    kernelLayout->addWidget(crossButton);
+    kernelLayout->addWidget(ellipseButton);
+    kernelLayout->addStretch();
+
+    auto *operationLayout = new QHBoxLayout();
+    auto *baseButton = new QPushButton(QStringLiteral("基础腐蚀/膨胀"), this);
+    auto *openOpButton = new QPushButton(QStringLiteral("开运算"), this);
+    auto *closeOpButton = new QPushButton(QStringLiteral("闭运算"), this);
+    auto *gradientButton = new QPushButton(QStringLiteral("形态学梯度"), this);
+    operationLayout->addStretch();
+    operationLayout->addWidget(baseButton);
+    operationLayout->addWidget(openOpButton);
+    operationLayout->addWidget(closeOpButton);
+    operationLayout->addWidget(gradientButton);
+    operationLayout->addStretch();
+
     layout->addWidget(titleLabel);
     layout->addLayout(buttonLayout);
+    layout->addLayout(kernelLayout);
+    layout->addLayout(operationLayout);
     layout->addWidget(statusLabel);
+    statusLabel->setWordWrap(true);
 
     waitKeyTimer = new QTimer(this);
     waitKeyTimer->setInterval(30);
@@ -150,6 +297,44 @@ MorphologyTrackbarLessonWidget::MorphologyTrackbarLessonWidget(QWidget *parent)
             applyMorphology(gState);
         }
     });
+    connect(rectButton, &QPushButton::clicked, this, []() {
+        setKernelShape(gState, cv::MORPH_RECT);
+    });
+    connect(crossButton, &QPushButton::clicked, this, []() {
+        setKernelShape(gState, cv::MORPH_CROSS);
+    });
+    connect(ellipseButton, &QPushButton::clicked, this, []() {
+        setKernelShape(gState, cv::MORPH_ELLIPSE);
+    });
+    connect(baseButton, &QPushButton::clicked, this, []() {
+        setOperation(gState, 0);
+    });
+    connect(openOpButton, &QPushButton::clicked, this, []() {
+        setOperation(gState, 1);
+    });
+    connect(closeOpButton, &QPushButton::clicked, this, []() {
+        setOperation(gState, 2);
+    });
+    connect(gradientButton, &QPushButton::clicked, this, []() {
+        setOperation(gState, 3);
+    });
+}
+
+MorphologyTrackbarLessonWidget::~MorphologyTrackbarLessonWidget()
+{
+    if (gWidget == this)
+    {
+        gWidget = nullptr;
+    }
+    if (gState)
+    {
+        cv::destroyWindow(gState->windowName);
+    }
+}
+
+void MorphologyTrackbarLessonWidget::updateStatusText() const
+{
+    statusLabel->setText(buildStatusText(gState));
 }
 
 void MorphologyTrackbarLessonWidget::openAndShow()
@@ -179,7 +364,7 @@ void MorphologyTrackbarLessonWidget::openAndShow()
     // 初始应用一次形态学操作以显示效果
     applyMorphology(&state);
 
-    statusLabel->setText(QStringLiteral("已显示：%1\n拖动滑动条控制腐蚀/膨胀").arg(imagePath));
+    updateStatusText();
     if (!waitKeyTimer->isActive())
     {
         waitKeyTimer->start();

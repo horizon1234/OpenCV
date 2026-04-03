@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="720" viewBox="0 0 1120 720">
+  <rect width="1120" height="720" fill="#f6f1e8"/>
+  <text x="54" y="56" font-size="34" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#2e241b">BGR 变暖 vs Lab 变暖：为什么两者感觉不一样</text>
+  <text x="54" y="92" font-size="18" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6a5c4e">左边更像“直接改通道”，右边更像“沿感知上的红 / 黄方向轻推”。</text>
+
+  <g transform="translate(60,138)">
+    <rect x="0" y="0" width="470" height="500" rx="26" fill="#efe3d8" stroke="#d0baa7" stroke-width="2"/>
+    <text x="28" y="42" font-size="30" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5e4335">左边：BGR 快速暖色滤镜</text>
+    <text x="28" y="72" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6e594b">典型做法：提高 R，压低 B。实现快，但会把通道平衡一起带动。</text>
+
+    <text x="28" y="126" font-size="18" font-family="monospace" fill="#5e4335">原图示意</text>
+    <rect x="34" y="146" width="172" height="118" rx="18" fill="#8b796a"/>
+    <rect x="88" y="182" width="64" height="46" rx="12" fill="#cf9571"/>
+    <circle cx="68" cy="174" r="10" fill="#d8cfc5"/>
+    <circle cx="162" cy="234" r="13" fill="#64564c" opacity="0.42"/>
+
+    <text x="268" y="126" font-size="18" font-family="monospace" fill="#5e4335">BGR 变暖后</text>
+    <rect x="264" y="146" width="172" height="118" rx="18" fill="#8e6d53"/>
+    <rect x="318" y="182" width="64" height="46" rx="12" fill="#ea9a68"/>
+    <circle cx="298" cy="174" r="10" fill="#ead5c5"/>
+    <circle cx="392" cy="234" r="13" fill="#5f4336" opacity="0.42"/>
+
+    <path d="M218 205 L250 205" stroke="#7d6a5d" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <text x="34" y="326" font-size="18" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5e4335">你通常会同时感觉到：</text>
+    <text x="50" y="360" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6e594b">1. 更暖、更红一点</text>
+    <text x="50" y="390" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6e594b">2. 蓝色被压下去了，整体通道关系被改了</text>
+    <text x="50" y="420" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6e594b">3. 阴影、高光、肤色、灰色区可能一起被带偏</text>
+    <text x="50" y="450" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6e594b">4. 更像“快速滤镜感”，不一定最稳</text>
+  </g>
+
+  <g transform="translate(590,138)">
+    <rect x="0" y="0" width="470" height="500" rx="26" fill="#e4ece8" stroke="#b7c7c0" stroke-width="2"/>
+    <text x="28" y="42" font-size="30" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#365146">右边：Lab 感知式变暖</text>
+    <text x="28" y="72" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#53685f">典型做法：a 略增、b 略增。更像沿“偏红 / 偏黄”的感知方向去调整。</text>
+
+    <text x="28" y="126" font-size="18" font-family="monospace" fill="#365146">原图示意</text>
+    <rect x="34" y="146" width="172" height="118" rx="18" fill="#8b796a"/>
+    <rect x="88" y="182" width="64" height="46" rx="12" fill="#cf9571"/>
+    <circle cx="68" cy="174" r="10" fill="#d8cfc5"/>
+    <circle cx="162" cy="234" r="13" fill="#64564c" opacity="0.42"/>
+
+    <text x="268" y="126" font-size="18" font-family="monospace" fill="#365146">Lab 变暖后</text>
+    <rect x="264" y="146" width="172" height="118" rx="18" fill="#91735f"/>
+    <rect x="318" y="182" width="64" height="46" rx="12" fill="#db9c74"/>
+    <circle cx="298" cy="174" r="10" fill="#ddd3ca"/>
+    <circle cx="392" cy="234" r="13" fill="#67584f" opacity="0.42"/>
+
+    <path d="M218 205 L250 205" stroke="#6b8376" stroke-width="4" marker-end="url(#arrow2)"/>
+
+    <text x="34" y="326" font-size="18" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#365146">你更容易感觉到：</text>
+    <text x="50" y="360" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#53685f">1. 画面整体偏暖，但不只是“硬拉 R 通道”</text>
+    <text x="50" y="390" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#53685f">2. 更接近“偏红 / 偏黄方向”的感知变化</text>
+    <text x="50" y="420" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#53685f">3. 对中性色、亮度结构的破坏通常更可控</text>
+    <text x="50" y="450" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#53685f">4. 更适合认真做暖冷调色，而不只是套滤镜</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d6a5d"/>
+    </marker>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#6b8376"/>
+    </marker>
+  </defs>
+</svg>

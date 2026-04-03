@@ -7,6 +7,8 @@
 #include <QStackedWidget>
 #include <QVBoxLayout>
 
+#include <vector>
+
 #include "01 生成并保存图片/imwrite_lesson_widget.h"
 #include "02 读取并显示图片/imread_lesson_widget.h"
 #include "03 窗口显示/named_window_lesson_widget.h"
@@ -23,6 +25,8 @@
 #include "14 颜色阈值分割-inRange/color_threshold_lesson_widget.h"
 #include "15 分割后处理-形态学与连通区域/segmentation_postprocess_lesson_widget.h"
 #include "16 连通区域分析-connectedComponentsWithStats/connected_components_lesson_widget.h"
+#include "advanced_lesson_factory.h"
+#include "advanced_lesson_runtime.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -121,6 +125,15 @@ MainWindow::MainWindow(QWidget *parent)
     auto *connectedComponentsItem = new QListWidgetItem(QStringLiteral("连通区域分析：connectedComponentsWithStats"));
     connectedComponentsItem->setData(Qt::UserRole, ConnectedComponentsPageIndex);
     lessonList->addItem(connectedComponentsItem);
+
+    std::vector<QPushButton *> advancedBackButtons;
+    for (int lessonId = 17; lessonId <= 60; ++lessonId)
+    {
+        const auto &config = advancedLessonConfig(lessonId);
+        auto *item = new QListWidgetItem(QString::fromStdString(config.title));
+        item->setData(Qt::UserRole, lessonId);
+        lessonList->addItem(item);
+    }
 
     homeLayout->addWidget(homeTitle);
     homeLayout->addWidget(lessonList, 1);
@@ -271,6 +284,20 @@ MainWindow::MainWindow(QWidget *parent)
     stack->addWidget(segmentationPostprocessPage);
     stack->addWidget(connectedComponentsPage);
 
+    for (int lessonId = 17; lessonId <= 60; ++lessonId)
+    {
+        auto *page = new QWidget();
+        auto *layout = new QVBoxLayout(page);
+        auto *backButton = new QPushButton(QStringLiteral("返回首页"), page);
+        auto *lessonWidget = createAdvancedLessonWidget(lessonId, page);
+
+        layout->addWidget(backButton, 0, Qt::AlignLeft);
+        layout->addWidget(lessonWidget, 1);
+
+        stack->addWidget(page);
+        advancedBackButtons.push_back(backButton);
+    }
+
     QObject::connect(lessonList, &QListWidget::itemClicked, stack, [this](QListWidgetItem *item) {
         const int pageIndex = item->data(Qt::UserRole).toInt();
         stack->setCurrentIndex(pageIndex);
@@ -323,6 +350,12 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(connectedComponentsBackButton, &QPushButton::clicked, stack, [this]() {
         stack->setCurrentIndex(HomePageIndex);
     });
+    for (auto *backButton : advancedBackButtons)
+    {
+        QObject::connect(backButton, &QPushButton::clicked, stack, [this]() {
+            stack->setCurrentIndex(HomePageIndex);
+        });
+    }
 
     setWindowTitle(QStringLiteral("Qt + OpenCV 学习项目"));
     setCentralWidget(stack);

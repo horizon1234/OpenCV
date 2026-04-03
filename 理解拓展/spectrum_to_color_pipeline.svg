@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420">
+  <rect width="1200" height="420" fill="#f6f1e8"/>
+  <text x="50" y="52" font-size="32" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#2e2419">从真实光谱到 RGB 图像：中间发生了什么</text>
+  <text x="50" y="88" font-size="18" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6b5c4c">真实世界先是光谱，人眼和相机都会把它压缩成少量通道；RGB 是最终便于显示与处理的工程表示。</text>
+
+  <g transform="translate(50,130)">
+    <rect x="0" y="0" width="220" height="210" rx="22" fill="#efe4d0" stroke="#cdb18d" stroke-width="2"/>
+    <text x="24" y="42" font-size="28" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5b432a">1. 真实光谱</text>
+    <rect x="24" y="72" width="172" height="72" rx="12" fill="url(#rainbow)"/>
+    <path d="M24 180 C54 150, 74 196, 102 168 S156 160, 196 184" fill="none" stroke="#51463a" stroke-width="4"/>
+    <text x="24" y="166" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5b432a">不同波长强弱不同</text>
+  </g>
+
+  <g transform="translate(330,130)">
+    <rect x="0" y="0" width="220" height="210" rx="22" fill="#e4ebdf" stroke="#b2c2a8" stroke-width="2"/>
+    <text x="24" y="42" font-size="28" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#31492f">2. 人眼 LMS</text>
+    <path d="M28 178 C58 132, 88 112, 124 96 S182 112, 196 170" fill="none" stroke="#ce5e52" stroke-width="5"/>
+    <path d="M28 186 C58 156, 84 112, 126 116 S182 140, 196 186" fill="none" stroke="#6b9b51" stroke-width="5"/>
+    <path d="M28 190 C50 182, 76 140, 96 112 S146 96, 196 194" fill="none" stroke="#4e77bf" stroke-width="5"/>
+    <text x="24" y="76" font-size="16" font-family="monospace" fill="#31492f">L  M  S 三类响应</text>
+  </g>
+
+  <g transform="translate(610,130)">
+    <rect x="0" y="0" width="220" height="210" rx="22" fill="#e1edf0" stroke="#a7c0c7" stroke-width="2"/>
+    <text x="24" y="42" font-size="28" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#2f4650">3. 相机 RGB</text>
+    <rect x="28" y="86" width="34" height="90" rx="8" fill="#d05f57"/>
+    <rect x="86" y="64" width="34" height="112" rx="8" fill="#7ea85d"/>
+    <rect x="144" y="104" width="34" height="72" rx="8" fill="#5d89d3"/>
+    <text x="28" y="76" font-size="16" font-family="monospace" fill="#2f4650">R</text>
+    <text x="86" y="76" font-size="16" font-family="monospace" fill="#2f4650">G</text>
+    <text x="144" y="76" font-size="16" font-family="monospace" fill="#2f4650">B</text>
+    <text x="24" y="196" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#2f4650">传感器 + 滤光片 + 校正</text>
+  </g>
+
+  <g transform="translate(890,130)">
+    <rect x="0" y="0" width="260" height="210" rx="22" fill="#efe5df" stroke="#cfb0a1" stroke-width="2"/>
+    <text x="24" y="42" font-size="28" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5b3f34">4. 显示/文件 RGB</text>
+    <rect x="34" y="72" width="54" height="54" rx="10" fill="#ee675b"/>
+    <rect x="102" y="72" width="54" height="54" rx="10" fill="#95bd64"/>
+    <rect x="170" y="72" width="54" height="54" rx="10" fill="#6496e5"/>
+    <rect x="60" y="132" width="136" height="40" rx="20" fill="#d98a63"/>
+    <text x="24" y="196" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5b3f34">sRGB / P3 / Adobe RGB 等标准</text>
+  </g>
+
+  <path d="M272 236 L314 236" stroke="#7f6a57" stroke-width="5" marker-end="url(#arrow)"/>
+  <path d="M552 236 L594 236" stroke="#7f6a57" stroke-width="5" marker-end="url(#arrow)"/>
+  <path d="M832 236 L874 236" stroke="#7f6a57" stroke-width="5" marker-end="url(#arrow)"/>
+
+  <defs>
+    <linearGradient id="rainbow" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#5e4ee6"/>
+      <stop offset="20%" stop-color="#4c8bef"/>
+      <stop offset="40%" stop-color="#4bbf93"/>
+      <stop offset="60%" stop-color="#e6d25c"/>
+      <stop offset="80%" stop-color="#e78a49"/>
+      <stop offset="100%" stop-color="#d94f47"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7f6a57"/>
+    </marker>
+  </defs>
+</svg>

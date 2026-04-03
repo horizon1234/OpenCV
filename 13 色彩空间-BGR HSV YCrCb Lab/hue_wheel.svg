@@ -30,6 +30,7 @@
   <text x="560" y="180" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#111">OpenCV hue scale</text>
   <text x="560" y="220" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">OpenCV stores hue in 0 to 179 instead of 0 to 360 degrees.</text>
   <text x="560" y="254" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333">Red sits at both ends of the circular axis, so one linear interval is not enough.</text>
+  <text x="560" y="278" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#555">The ring thickness is only a drawing aid. Hue is represented by angle, not by thickness.</text>
 
   <rect x="560" y="315" width="290" height="135" rx="16" fill="#fff" stroke="#d8d2c5" stroke-width="2"/>
   <text x="585" y="355" font-family="Courier New, monospace" font-size="19" fill="#111">mask1: H = [0, 12]</text>

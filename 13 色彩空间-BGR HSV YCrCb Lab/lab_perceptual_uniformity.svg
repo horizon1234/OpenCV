@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="760" viewBox="0 0 1120 760">
+  <rect width="1120" height="760" fill="#f5f0e7"/>
+  <text x="54" y="56" font-size="34" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#2e241b">为什么说 Lab 更接近“感知均匀”</text>
+  <text x="54" y="92" font-size="18" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6a5c4e">下面不是严格实验图，而是帮助建立直觉：同样大小的数字改动，在 BGR 和 Lab 里对人眼的感觉并不一样。</text>
+
+  <g transform="translate(60,140)">
+    <rect x="0" y="0" width="470" height="540" rx="26" fill="#efe3d8" stroke="#d0baa7" stroke-width="2"/>
+    <text x="28" y="42" font-size="30" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5e4335">左边：BGR 中“同样 +20”</text>
+    <text x="28" y="72" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6e594b">同样的数值变化，不一定带来相似的主观变化。</text>
+
+    <text x="28" y="122" font-size="18" font-family="monospace" fill="#5e4335">例子 A  灰色： (60,60,60) -> (80,80,80)</text>
+    <rect x="34" y="142" width="138" height="74" rx="16" fill="#3c3c3c"/>
+    <rect x="286" y="142" width="138" height="74" rx="16" fill="#505050"/>
+    <path d="M186 179 L266 179" stroke="#7d6a5d" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="34" y="238" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6e594b">更亮了一些，主要是亮度变化</text>
+
+    <text x="28" y="302" font-size="18" font-family="monospace" fill="#5e4335">例子 B  暖色： (60,120,200) -> (80,120,200)</text>
+    <rect x="34" y="322" width="138" height="74" rx="16" fill="#c8783c"/>
+    <rect x="286" y="322" width="138" height="74" rx="16" fill="#c87850"/>
+    <path d="M186 359 L266 359" stroke="#7d6a5d" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="34" y="418" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6e594b">同样 +20，但这次不只是亮暗，还更偏冷了一点</text>
+
+    <text x="28" y="482" font-size="18" font-family="monospace" fill="#5e4335">例子 C  高亮色： (210,210,210) -> (230,230,230)</text>
+    <rect x="34" y="502" width="138" height="74" rx="16" fill="#d2d2d2" stroke="#bbb" stroke-width="1"/>
+    <rect x="286" y="502" width="138" height="74" rx="16" fill="#e6e6e6" stroke="#cfcfcf" stroke-width="1"/>
+    <path d="M186 539 L266 539" stroke="#7d6a5d" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="34" y="598" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6e594b">还是 +20，但接近高亮区时，主观差异又显得没那么强</text>
+  </g>
+
+  <g transform="translate(590,140)">
+    <rect x="0" y="0" width="470" height="540" rx="26" fill="#e3ece8" stroke="#b7c7c0" stroke-width="2"/>
+    <text x="28" y="42" font-size="30" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#365146">右边：Lab 中“同样 ΔL”</text>
+    <text x="28" y="72" font-size="17" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#53685f">固定 a/b，只改变 L，主观上更接近“类似程度的提亮”。</text>
+
+    <text x="28" y="122" font-size="18" font-family="monospace" fill="#365146">例子 A  ΔL = +20</text>
+    <rect x="34" y="142" width="138" height="74" rx="16" fill="#6a5646"/>
+    <rect x="286" y="142" width="138" height="74" rx="16" fill="#8b725d"/>
+    <path d="M186 179 L266 179" stroke="#6b8376" stroke-width="4" marker-end="url(#arrow2)"/>
+    <text x="34" y="238" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#53685f">主要感觉是：同色系被提亮</text>
+
+    <text x="28" y="302" font-size="18" font-family="monospace" fill="#365146">例子 B  ΔL = +20</text>
+    <rect x="34" y="322" width="138" height="74" rx="16" fill="#8e5d43"/>
+    <rect x="286" y="322" width="138" height="74" rx="16" fill="#b27857"/>
+    <path d="M186 359 L266 359" stroke="#6b8376" stroke-width="4" marker-end="url(#arrow2)"/>
+    <text x="34" y="418" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#53685f">虽然基色不同，但“提亮一步”的感觉更统一</text>
+
+    <text x="28" y="482" font-size="18" font-family="monospace" fill="#365146">例子 C  ΔL = +20</text>
+    <rect x="34" y="502" width="138" height="74" rx="16" fill="#c4b09a" stroke="#bba892" stroke-width="1"/>
+    <rect x="286" y="502" width="138" height="74" rx="16" fill="#dcc8b1" stroke="#d3bfa8" stroke-width="1"/>
+    <path d="M186 539 L266 539" stroke="#6b8376" stroke-width="4" marker-end="url(#arrow2)"/>
+    <text x="34" y="598" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#53685f">不是绝对完美一致，但比直接改 BGR 更接近主观均匀</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d6a5d"/>
+    </marker>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#6b8376"/>
+    </marker>
+  </defs>
+</svg>

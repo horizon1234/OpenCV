@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="430" viewBox="0 0 1180 430">
+  <rect width="1180" height="430" fill="#f3efe8"/>
+  <text x="48" y="52" font-size="32" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#2c241d">同色异谱：不同光谱，为什么看起来却能一样</text>
+  <text x="48" y="88" font-size="18" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#6a5b4f">物理上不同的两束光，只要对人眼三类视锥的刺激结果相同，就可能被看成同一种颜色。</text>
+
+  <g transform="translate(48,126)">
+    <rect x="0" y="0" width="320" height="236" rx="22" fill="#e8e3d8" stroke="#c7b8a1" stroke-width="2"/>
+    <text x="26" y="40" font-size="27" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5e4a35">光谱 A</text>
+    <rect x="26" y="64" width="268" height="34" rx="10" fill="url(#rainbowA)"/>
+    <path d="M26 192 C58 112, 90 112, 126 194 S192 186, 294 124" fill="none" stroke="#4f463b" stroke-width="4"/>
+    <text x="26" y="222" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#5e4a35">一个较平滑、连续的光谱分布</text>
+  </g>
+
+  <g transform="translate(430,126)">
+    <rect x="0" y="0" width="320" height="236" rx="22" fill="#e5e9df" stroke="#bdc8ae" stroke-width="2"/>
+    <text x="26" y="40" font-size="27" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#35492d">光谱 B</text>
+    <rect x="26" y="64" width="268" height="34" rx="10" fill="url(#rainbowB)"/>
+    <path d="M26 202 C68 194, 86 84, 118 202 S186 204, 224 96 S268 118, 294 198" fill="none" stroke="#4f463b" stroke-width="4"/>
+    <text x="26" y="222" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#35492d">另一个完全不同、峰值更尖的分布</text>
+  </g>
+
+  <g transform="translate(812,126)">
+    <rect x="0" y="0" width="320" height="236" rx="22" fill="#e7e2ef" stroke="#c5b9d4" stroke-width="2"/>
+    <text x="26" y="40" font-size="27" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#45345a">人眼结果</text>
+    <rect x="34" y="86" width="34" height="90" rx="8" fill="#d36054"/>
+    <rect x="106" y="70" width="34" height="106" rx="8" fill="#82aa63"/>
+    <rect x="178" y="102" width="34" height="74" rx="8" fill="#5d87d1"/>
+    <text x="34" y="68" font-size="16" font-family="monospace" fill="#45345a">L</text>
+    <text x="106" y="68" font-size="16" font-family="monospace" fill="#45345a">M</text>
+    <text x="178" y="68" font-size="16" font-family="monospace" fill="#45345a">S</text>
+    <circle cx="260" cy="128" r="36" fill="#d38965"/>
+    <text x="26" y="222" font-size="16" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#45345a">如果 LMS 响应相同，看起来就可能是同一种颜色</text>
+  </g>
+
+  <path d="M372 242 L414 242" stroke="#7d6b5a" stroke-width="5" marker-end="url(#arrow)"/>
+  <path d="M754 242 L796 242" stroke="#7d6b5a" stroke-width="5" marker-end="url(#arrow)"/>
+  <path d="M332 116 C500 40, 674 40, 848 116" fill="none" stroke="#b58e61" stroke-width="4" stroke-dasharray="8 6"/>
+  <text x="470" y="34" font-size="18" font-family="'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif" fill="#8a6a48">物理不同，不代表视觉一定不同</text>
+
+  <defs>
+    <linearGradient id="rainbowA" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#5e4ee6"/><stop offset="20%" stop-color="#4c8bef"/><stop offset="40%" stop-color="#4bbf93"/><stop offset="60%" stop-color="#e6d25c"/><stop offset="80%" stop-color="#e78a49"/><stop offset="100%" stop-color="#d94f47"/>
+    </linearGradient>
+    <linearGradient id="rainbowB" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#5e4ee6"/><stop offset="20%" stop-color="#4c8bef"/><stop offset="40%" stop-color="#4bbf93"/><stop offset="60%" stop-color="#e6d25c"/><stop offset="80%" stop-color="#e78a49"/><stop offset="100%" stop-color="#d94f47"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d6b5a"/>
+    </marker>
+  </defs>
+</svg>
